@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="I:/software/eclipse4.2/eclipse/plugins/org.eclipse.ui.forms_3.5.200.v20120705-114351.jar" sourcepath="I:/software/eclipse4.2/eclipse/plugins/org.eclipse.ui.forms_3.5.200.v20120705-114351.jar"/>
 	<classpathentry kind="lib" path="swing2swt.jar"/>
 	<classpathentry kind="lib" path="swt-grouplayout.jar" sourcepath="swt-grouplayout.zip"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

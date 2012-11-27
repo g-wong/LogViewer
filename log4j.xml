@@ -1,0 +1,23 @@
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+<!-- (1)appenderの設定 -->
+<appender name="FILE" class="org.apache.log4j.FileAppender">
+  <param name="File" value="log.txt" />
+  <!-- (2)layoutの設定 -->
+  <layout class="org.apache.log4j.PatternLayout">
+    <param name="ConversionPattern"
+           value="%d{yyyy/mm/dd} %p:%r:%c:%m%n" />
+  </layout>
+</appender>
+
+<!-- (3)categoryの設定 -->
+<category name="example">
+  <priority value="info" />
+  <appender-ref ref="FILE" />
+</category>
+
+</log4j:configuration>
