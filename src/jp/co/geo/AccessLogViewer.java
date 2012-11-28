@@ -1,5 +1,8 @@
 package jp.co.geo;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Menu;
@@ -15,6 +18,8 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.custom.TableCursor;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -57,7 +62,7 @@ public class AccessLogViewer {
 	 */
 	protected void createContents() {
 		shell = new Shell();
-		shell.setSize(573, 478);
+		shell.setSize(615, 501);
 		shell.setText("SWT Application");
 		shell.setLayout(new GridLayout(4, false));
 		
@@ -71,6 +76,24 @@ public class AccessLogViewer {
 		mntmFile.setMenu(menu_1);
 		
 		MenuItem mntmOpen = new MenuItem(menu_1, SWT.NONE);
+
+		mntmOpen.addSelectionListener(new SelectionAdapter() {
+			
+			@SuppressWarnings("unchecked")
+			@Override
+			/**
+			 * ファイルを開く
+			 */
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("test");
+				// ファイルダイアログを開く
+				OpenFileDialog openFileDialog = new OpenFileDialog(shell, SWT.PRIMARY_MODAL);
+				ArrayList<StringBuffer> openFile = (ArrayList<StringBuffer>) openFileDialog.open();
+				setData(openFile);
+				return;
+				
+			}
+		});
 		mntmOpen.setText("\u958B\u304F");
 		
 		MenuItem menuItem = new MenuItem(menu, SWT.CASCADE);
@@ -82,11 +105,11 @@ public class AccessLogViewer {
 		MenuItem menuItem_1 = new MenuItem(menu_3, SWT.NONE);
 		menuItem_1.setText("\u30D8\u30C3\u30C0");
 		
-		MenuItem mntmNewRadiobutton = new MenuItem(menu_3, SWT.RADIO);
-		mntmNewRadiobutton.setText("New RadioButton");
+		MenuItem menuItem_2 = new MenuItem(menu_3, SWT.NONE);
+		menuItem_2.setText("\u30B9\u30C6\u30FC\u30BF\u30B9\u30B3\u30FC\u30C9");
 		
-		MenuItem mntmNewRadiobutton_1 = new MenuItem(menu_3, SWT.RADIO);
-		mntmNewRadiobutton_1.setText("New RadioButton");
+		MenuItem menuItem_3 = new MenuItem(menu_3, SWT.NONE);
+		menuItem_3.setText("\u51E6\u7406\u6642\u9593");
 		
 		MenuItem mntmTool = new MenuItem(menu, SWT.CASCADE);
 		mntmTool.setText("\u30C4\u30FC\u30EB");
@@ -113,7 +136,7 @@ public class AccessLogViewer {
 		table.setLinesVisible(true);
 		
 		TableColumn tblclmnAccessTime = new TableColumn(table, SWT.NONE);
-		tblclmnAccessTime.setWidth(138);
+		tblclmnAccessTime.setWidth(162);
 		tblclmnAccessTime.setText("\u65E5\u6642");
 		
 		TableColumn tblclmnRequest = new TableColumn(table, SWT.NONE);
@@ -124,10 +147,6 @@ public class AccessLogViewer {
 		tblclmnHttpStatusCode.setWidth(87);
 		tblclmnHttpStatusCode.setText("\u30B9\u30C6\u30FC\u30BF\u30B9\u30B3\u30FC\u30C9");
 		
-		TableItem tableItem = new TableItem(table, SWT.NONE);
-		tableItem.setText(new String[] {});
-		tableItem.setText("2012/11/27 23:44:54\r\n");
-		
 		TableCursor tableCursor = new TableCursor(table, SWT.NONE);
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
@@ -135,4 +154,18 @@ public class AccessLogViewer {
 		tblclmnNewColumn.setText("\u51E6\u7406\u6642\u9593(\u30DF\u30EA\u79D2)");
 
 	}
+	
+	private void setData(ArrayList<StringBuffer> dataList){
+		if (dataList == null) return;
+		for (int i = 0; i < dataList.size(); i++) {
+			Object[] data = new Analyzer().analyze(dataList.get(i));
+			TableItem item = new TableItem(table, SWT.NULL);
+			item.setText(0, (String)data[1]);
+			item.setText(1, (String)data[2]);
+			item.setText(2, (String) data[4]);
+			item.setText(3, (String) data[5]);
+		}
+	}
+	
+	
 }

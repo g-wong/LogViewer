@@ -1,5 +1,10 @@
 package jp.co.geo;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.eclipse.swt.widgets.Dialog;
@@ -24,8 +29,7 @@ public class OpenFileDialog extends Dialog {
 	protected Shell parent;
 	protected Object result;
 	protected Shell shlOpenFiles;
-	private Text textFile1;
-	private Text textFile2;
+	private Text textFile;
 
 	/**
 	 * Create the dialog.
@@ -52,6 +56,7 @@ public class OpenFileDialog extends Dialog {
 				display.sleep();
 			}
 		}
+		
 		return result;
 	}
 
@@ -67,8 +72,8 @@ public class OpenFileDialog extends Dialog {
 		CLabel lblFile1 = new CLabel(shlOpenFiles, SWT.NONE);
 		lblFile1.setText("File1");
 		
-		textFile1 = new Text(shlOpenFiles, SWT.BORDER);
-		textFile1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		textFile = new Text(shlOpenFiles, SWT.BORDER);
+		textFile.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 		
 		Button btnNewButton = new Button(shlOpenFiles, SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
@@ -80,31 +85,10 @@ public class OpenFileDialog extends Dialog {
 				fileDialog.setFilterPath("C:/");
 				String selected = fileDialog.open();
 				System.out.println("selected : " + selected);
-				textFile1.setText(selected);
+				textFile.setText(selected);
 			}
 		});
 		btnNewButton.setText("...");
-		
-		CLabel lblFile2 = new CLabel(shlOpenFiles, SWT.NONE);
-		lblFile2.setText("File2");
-		
-		textFile2 = new Text(shlOpenFiles, SWT.BORDER);
-		textFile2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-		
-		Button btnNewButton_1 = new Button(shlOpenFiles, SWT.NONE);
-		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
-			// File2 のファイルダイアログ
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				FileDialog fileDialog = new FileDialog(parent, SWT.OPEN);
-				fileDialog.setText("Open");
-				fileDialog.setFilterPath("C:/");
-				String selected = fileDialog.open();
-				System.out.println("selected : " + selected);
-				textFile2.setText(selected);
-			}
-		});
-		btnNewButton_1.setText("...");
 		new Label(shlOpenFiles, SWT.NONE);
 		new Label(shlOpenFiles, SWT.NONE);
 		new Label(shlOpenFiles, SWT.NONE);
@@ -119,10 +103,10 @@ public class OpenFileDialog extends Dialog {
 			// Open を選択したときの動作
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				ArrayList<String> fileList = new ArrayList<String>();
-				fileList.add(textFile1.getText());
-				fileList.add(textFile2.getText());
-				result = fileList;
+				File file = new File(textFile.getText());
+				ArrayList<StringBuffer> bufferList = openFile(file);
+				
+				result = bufferList;
 				shlOpenFiles.dispose();
 			}
 		});
@@ -140,6 +124,40 @@ public class OpenFileDialog extends Dialog {
 		});
 		btnCancel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		btnCancel.setText("Cancel");
+	}
+
+	/**
+	 * ファイルを開く
+	 * @param file
+	 * @param buffer
+	 * @return
+	 */
+	public ArrayList<StringBuffer> openFile(File file){
+		return openFile(file, new ArrayList<StringBuffer>());
+	}
+	
+	public ArrayList<StringBuffer> openFile(File file, ArrayList<StringBuffer> bufferList) {
+		if(file.exists() == false) {
+			return bufferList;
+		}
+		try {
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String line;
+			while((line = br.readLine()) != null) {
+				bufferList.add(new StringBuffer(line));
+			}
+			return bufferList;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		result = null;
+		return null;
 	}
 
 }

@@ -1,42 +1,32 @@
 package jp.co.geo;
 
-import java.util.ArrayList;
+import java.text.MessageFormat;
+import java.text.ParseException;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
-
-public class Analyzer
-{
-	private Display display;
-	private ArrayList<StringBuffer> bufferList;
-	private ArrayList<StyledText> textList;
+public class Analyzer {
 	
-	public Analyzer(Display display,
-			ArrayList<StringBuffer> bufferList, 
-			ArrayList<StyledText> textList) {
-		this.display = display;
-		this.bufferList = bufferList;
-		this.textList = textList;
+    MessageFormat format;
+	
+	public Analyzer() {
+        // アクセスログのフォーマット
+        format = new MessageFormat("{0} - [{1}] \"GET {2} {3}\" {4} {5}");
 	}
 	
-	public void run() {
-		if(bufferList.isEmpty()) return;
-		
-		for (int i = 0; i < textList.size(); i++) {
-			if (bufferList.get(i) == null) break;
-			setTextStyle(textList.get(i));
-			textList.get(i).setText(bufferList.get(i).toString());
+	
+	public Object[] analyze(StringBuffer buffer) {
+		return analyze(buffer.toString());
+	}
+	
+	public Object[] analyze(String str) {
+		Object[] message;
+		try {
+			message = format.parse(str);
+			return message;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		return null;
 	}
-	
-	private  void setTextStyle(StyledText styledText){
-		// error文字列を赤文字にする
-		Color red = display.getSystemColor(SWT.COLOR_RED);
-		styledText.addLineStyleListener(
-				new HilightListener(red, "error"));
-	}
-	
-	
 }
