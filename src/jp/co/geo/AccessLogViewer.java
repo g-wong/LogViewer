@@ -1,7 +1,8 @@
 package jp.co.geo;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -10,24 +11,34 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
-import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Button;
 
 public class AccessLogViewer {
 
 	protected Shell shell;
 	private Table table;
+	
+	/**
+	 * HTTPステータスコードの表示メニュー
+	 */
+	private Menu mntmHttpStatusCode;
+	
+	/**
+	 * HTTPステータスコードの一覧
+	 * ファイルからログを読み込んだ際に重複なく一覧に追加する
+	 */
+	private ArrayList<String> httpStatusCodeList = new ArrayList<String>();
+	
+	private ArrayList<Object> logList = new ArrayList<Object>();
 
 	/**
 	 * Launch the application.
@@ -63,8 +74,8 @@ public class AccessLogViewer {
 	protected void createContents() {
 		shell = new Shell();
 		shell.setSize(615, 501);
-		shell.setText("SWT Application");
-		shell.setLayout(new GridLayout(4, false));
+		shell.setText("Apache Access Log");
+		shell.setLayout(new GridLayout(5, false));
 		
 		Menu menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);
@@ -102,11 +113,15 @@ public class AccessLogViewer {
 		Menu menu_3 = new Menu(menuItem);
 		menuItem.setMenu(menu_3);
 		
+		MenuItem mntmHttp = new MenuItem(menu_3, SWT.CASCADE);
+		mntmHttp.setText("HTTP\u30B9\u30C6\u30FC\u30BF\u30B9\u30B3\u30FC\u30C9");
+		
+		mntmHttpStatusCode = new Menu(mntmHttp);
+		mntmHttp.setMenu(mntmHttpStatusCode);
+		
+		
 		MenuItem menuItem_1 = new MenuItem(menu_3, SWT.NONE);
 		menuItem_1.setText("\u30D8\u30C3\u30C0");
-		
-		MenuItem menuItem_2 = new MenuItem(menu_3, SWT.NONE);
-		menuItem_2.setText("\u30B9\u30C6\u30FC\u30BF\u30B9\u30B3\u30FC\u30C9");
 		
 		MenuItem menuItem_3 = new MenuItem(menu_3, SWT.NONE);
 		menuItem_3.setText("\u51E6\u7406\u6642\u9593");
@@ -130,8 +145,18 @@ public class AccessLogViewer {
 		
 		DateTime dateTime_1 = new DateTime(shell, SWT.BORDER);
 		
+		Button btnNewButton = new Button(shell, SWT.NONE);
+		btnNewButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				redraw();
+			}
+		});
+		btnNewButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		btnNewButton.setText("\u518D\u63CF\u753B");
+		
 		table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 4, 1));
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 5, 1));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
@@ -157,15 +182,81 @@ public class AccessLogViewer {
 	
 	private void setData(ArrayList<StringBuffer> dataList){
 		if (dataList == null) return;
+		
+		// 読み込んだファイルデータから表を作成する
 		for (int i = 0; i < dataList.size(); i++) {
-			Object[] data = new Analyzer().analyze(dataList.get(i));
+			LogModel logModel = new LogModel();
+			Object[] data = logModel.analyze(dataList.get(i));
+			logList.add(data);
 			TableItem item = new TableItem(table, SWT.NULL);
-			item.setText(0, (String)data[1]);
-			item.setText(1, (String)data[2]);
-			item.setText(2, (String) data[4]);
-			item.setText(3, (String) data[5]);
+			String httpStatusCode = logModel.getHttpStatusCode();
+			if (httpStatusCode.contains("50")
+					|| httpStatusCode.contains("40")) {
+				Color red = new Color(Display.getDefault(), 0xFF, 0x00, 0x00);
+				item.setForeground(red);
+			}
+			item.setText(0, (String)data[3]);
+			item.setText(1, (String)data[4]);
+			item.setText(2, (String) data[5]);
+			item.setText(3, (String) data[6]);
+
+			if (httpStatusCodeList.contains(logModel.getHttpStatusCode()) == false) {
+				httpStatusCodeList.add(logModel.getHttpStatusCode());
+			}
+		}
+		
+		// HTTPステータスコードを昇順に並べる
+		Collections.sort(httpStatusCodeList, new Comparator<String>(){
+				public int compare(String str1, String str2){
+					Integer val1 = new Integer(str1);
+					Integer val2 = new Integer(str2);
+					return val1.compareTo(val2);
+				}
+			});
+		
+		// HTTPステータスコードを表示メニューに追加する
+		for (String httpStatusCode : httpStatusCodeList) {
+			MenuItem mntmNewItem = new MenuItem(mntmHttpStatusCode, SWT.CHECK);
+			mntmNewItem.setText(httpStatusCode);
+			mntmNewItem.setSelection(true);
 		}
 	}
 	
-	
+	private void redraw() {
+		table.removeAll();
+		MenuItem menuItems[] = mntmHttpStatusCode.getItems();
+		for (int i = 0; i < logList.size(); i++) {
+			Object[] data = (Object[]) logList.get(i);
+			String httpStatusCode = (String) data[5];
+			
+			if (selected(menuItems, httpStatusCode)) {
+				TableItem item = new TableItem(table, SWT.NULL);
+				if (httpStatusCode.contains("50")
+						|| httpStatusCode.contains("40")) {
+					Color red = new Color(Display.getDefault(), 0xFF, 0x00, 0x00);
+					item.setForeground(red);
+				}
+				item.setText(0, (String)data[3]);
+				item.setText(1, (String)data[4]);
+				item.setText(2, (String) data[5]);
+				item.setText(3, (String) data[6]);
+			}
+		}
+	}
+
+	/**
+	 * チェックボックスにチェックがあるか
+	 * @param items
+	 * @param target
+	 * @return
+	 */
+	private boolean selected(MenuItem[] items, String target) {
+		for (MenuItem item : items) {
+			if (item.getText().equals(target)) {
+				return item.getSelection();
+			}
+		}
+		
+		return false;
+	}
 }

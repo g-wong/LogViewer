@@ -7,7 +7,7 @@
 127.0.0.1 - - [15/Jul/2009:22:48:53 +0900] "GET /images/categoryLine.png HTTP/1.1" 200 228
 127.0.0.1 - - [15/Jul/2009:22:48:53 +0900] "GET /images/logo.png HTTP/1.1" 200 19919
 127.0.0.1 - - [15/Jul/2009:22:49:54 +0900] "GET /ref/java/core/format/num.html HTTP/1.1" 200 5178
-127.0.0.1 - - [15/Jul/2009:22:49:54 +0900] "GET /images/categoryLine.png HTTP/1.1" 200 228
+127.0.0.1 - - [15/Jul/2009:22:49:54 +0900] "GET /images/categoryLine.png HTTP/1.1" 503 228
 127.0.0.1 - - [15/Jul/2009:22:49:54 +0900] "GET /style.css HTTP/1.1" 200 2820
 127.0.0.1 - - [15/Jul/2009:22:49:54 +0900] "GET /images/logo.png HTTP/1.1" 200 19919
 127.0.0.1 - - [15/Jul/2009:22:49:55 +0900] "GET /ref/java/core/format/num.html HTTP/1.1" 200 5178
@@ -19,7 +19,7 @@
 127.0.0.1 - - [15/Jul/2009:22:49:56 +0900] "GET /images/categoryLine.png HTTP/1.1" 200 228
 127.0.0.1 - - [15/Jul/2009:22:49:56 +0900] "GET /images/logo.png HTTP/1.1" 200 19919
 127.0.0.1 - - [15/Jul/2009:22:49:58 +0900] "GET /ref/java/core/format/date.html HTTP/1.1" 200 7525
-127.0.0.1 - - [15/Jul/2009:22:49:58 +0900] "GET /images/categoryLine.png HTTP/1.1" 200 228
+127.0.0.1 - - [15/Jul/2009:22:49:58 +0900] "GET /images/categoryLine.png HTTP/1.1" 304 -
 127.0.0.1 - - [15/Jul/2009:22:49:58 +0900] "GET /style.css HTTP/1.1" 200 2820
 127.0.0.1 - - [15/Jul/2009:22:49:58 +0900] "GET /images/logo.png HTTP/1.1" 200 19919
 127.0.0.1 - - [15/Jul/2009:22:50:01 +0900] "GET /ref/java/core/format/num.html HTTP/1.1" 200 5178
