@@ -3,6 +3,12 @@ package jp.co.geo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
+
+import jp.co.geo.model.Date;
+import jp.co.geo.model.LogModel;
+import jp.co.geo.model.Logs;
+import jp.co.geo.table.TableSortListener;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -38,7 +44,10 @@ public class AccessLogViewer {
 	 */
 	private ArrayList<String> httpStatusCodeList = new ArrayList<String>();
 	
-	private ArrayList<Object> logList = new ArrayList<Object>();
+	/**
+	 * ファイルから読み込んだログの全データを格納するリスト
+	 */
+	private Logs logList = new Logs();
 
 	/**
 	 * Launch the application.
@@ -161,25 +170,33 @@ public class AccessLogViewer {
 		table.setLinesVisible(true);
 		
 		TableColumn tblclmnAccessTime = new TableColumn(table, SWT.NONE);
+		tblclmnAccessTime.addSelectionListener(new TableSortListener(table));
 		tblclmnAccessTime.setWidth(162);
 		tblclmnAccessTime.setText("\u65E5\u6642");
 		
 		TableColumn tblclmnRequest = new TableColumn(table, SWT.NONE);
+		tblclmnRequest.addSelectionListener(new TableSortListener(table));
 		tblclmnRequest.setWidth(218);
 		tblclmnRequest.setText("\u30EA\u30AF\u30A8\u30B9\u30C8URL");
 		
 		TableColumn tblclmnHttpStatusCode = new TableColumn(table, SWT.NONE);
+		tblclmnHttpStatusCode.addSelectionListener(new TableSortListener(table));
 		tblclmnHttpStatusCode.setWidth(87);
 		tblclmnHttpStatusCode.setText("\u30B9\u30C6\u30FC\u30BF\u30B9\u30B3\u30FC\u30C9");
 		
 		TableCursor tableCursor = new TableCursor(table, SWT.NONE);
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
+		tblclmnNewColumn.addSelectionListener(new TableSortListener(table));
 		tblclmnNewColumn.setWidth(100);
 		tblclmnNewColumn.setText("\u51E6\u7406\u6642\u9593(\u30DF\u30EA\u79D2)");
 
 	}
 	
+	/**
+	 * ログデータから表を作成する
+	 * @param dataList
+	 */
 	private void setData(ArrayList<StringBuffer> dataList){
 		if (dataList == null) return;
 		
@@ -187,18 +204,19 @@ public class AccessLogViewer {
 		for (int i = 0; i < dataList.size(); i++) {
 			LogModel logModel = new LogModel();
 			Object[] data = logModel.analyze(dataList.get(i));
-			logList.add(data);
+			logList.appendLog(logModel);
 			TableItem item = new TableItem(table, SWT.NULL);
+			// HTTPステータスコードを見て 50x や 40x ならその行を赤色にする
 			String httpStatusCode = logModel.getHttpStatusCode();
 			if (httpStatusCode.contains("50")
 					|| httpStatusCode.contains("40")) {
 				Color red = new Color(Display.getDefault(), 0xFF, 0x00, 0x00);
 				item.setForeground(red);
 			}
-			item.setText(0, (String)data[3]);
-			item.setText(1, (String)data[4]);
-			item.setText(2, (String) data[5]);
-			item.setText(3, (String) data[6]);
+			item.setText(0, new Date((String) data[3]).get());  // 日時
+			item.setText(1, (String)data[4]);  // URL
+			item.setText(2, (String) data[5]); // HTTPステータスコード
+			item.setText(3, (String) data[6]); // レスポンスサイズ
 
 			if (httpStatusCodeList.contains(logModel.getHttpStatusCode()) == false) {
 				httpStatusCodeList.add(logModel.getHttpStatusCode());
@@ -222,35 +240,39 @@ public class AccessLogViewer {
 		}
 	}
 	
+	/**
+	 * 再描画を行う
+	 */
 	private void redraw() {
 		table.removeAll();
 		MenuItem menuItems[] = mntmHttpStatusCode.getItems();
-		for (int i = 0; i < logList.size(); i++) {
-			Object[] data = (Object[]) logList.get(i);
-			String httpStatusCode = (String) data[5];
+		Iterator<LogModel> it = logList.iterator();
+		while( it.hasNext() ) {
+			LogModel log = it.next();
+			String httpStatusCode = log.getHttpStatusCode();
 			
-			if (selected(menuItems, httpStatusCode)) {
+			if (selectedCheckBox(menuItems, httpStatusCode)) {
 				TableItem item = new TableItem(table, SWT.NULL);
 				if (httpStatusCode.contains("50")
 						|| httpStatusCode.contains("40")) {
 					Color red = new Color(Display.getDefault(), 0xFF, 0x00, 0x00);
 					item.setForeground(red);
 				}
-				item.setText(0, (String)data[3]);
-				item.setText(1, (String)data[4]);
-				item.setText(2, (String) data[5]);
-				item.setText(3, (String) data[6]);
+				item.setText(0, log.getDate());  // 日時
+				item.setText(1, log.getURL());
+				item.setText(2, log.getHttpStatusCode());
+				item.setText(3, log.getProcessingTime());
 			}
 		}
 	}
 
 	/**
-	 * チェックボックスにチェックがあるか
-	 * @param items
-	 * @param target
+	 * チェックボックスでチェックが行われているかを確認する
+	 * @param items チェックボックス
+	 * @param target 検索対象文字列
 	 * @return
 	 */
-	private boolean selected(MenuItem[] items, String target) {
+	private boolean selectedCheckBox(MenuItem[] items, String target) {
 		for (MenuItem item : items) {
 			if (item.getText().equals(target)) {
 				return item.getSelection();

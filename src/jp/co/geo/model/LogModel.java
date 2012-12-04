@@ -1,4 +1,4 @@
-package jp.co.geo;
+package jp.co.geo.model;
 
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -43,5 +43,17 @@ public class LogModel {
 	 */
 	public String getHttpStatusCode() {
 		return (String) message[5];
+	}
+	
+	public String getDate() {
+		return (String) message[3];
+	}
+	
+	public String getURL() {
+		return (String) message[4];
+	}
+	
+	public String getProcessingTime() {
+		return (String) message[6];
 	}
 }
