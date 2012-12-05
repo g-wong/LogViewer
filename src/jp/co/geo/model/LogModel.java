@@ -1,7 +1,12 @@
 package jp.co.geo.model;
 
+import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class LogModel {
 	
@@ -11,7 +16,7 @@ public class LogModel {
     
 	public LogModel() {
         // アクセスログのフォーマット
-        format = new MessageFormat("{0} {1} {2} [{3}] \"{4}\" {5} {6}");
+        format = new MessageFormat("{0} {1} {2} [{3} +{4}] \"{5}\" {6} {7}");
 	}
 	
 	
@@ -42,18 +47,22 @@ public class LogModel {
 	 * @return
 	 */
 	public String getHttpStatusCode() {
-		return (String) message[5];
+		return (String) message[6];
 	}
 	
-	public String getDate() {
-		return (String) message[3];
+	public Date getDate() {
+		Date date = null;
+		DateFormat df = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss", Locale.ENGLISH);
+		ParsePosition pos = new ParsePosition(0);
+		date = df.parse((String) message[3], pos);
+		return date;
 	}
 	
 	public String getURL() {
-		return (String) message[4];
+		return (String) message[5];
 	}
 	
 	public String getProcessingTime() {
-		return (String) message[6];
+		return (String) message[7];
 	}
 }

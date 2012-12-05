@@ -1,11 +1,14 @@
 package jp.co.geo;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
 
-import jp.co.geo.model.Date;
 import jp.co.geo.model.LogModel;
 import jp.co.geo.model.Logs;
 import jp.co.geo.table.TableSortListener;
@@ -28,6 +31,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Button;
 
+import com.ibm.icu.util.Calendar;
+
 public class AccessLogViewer {
 
 	protected Shell shell;
@@ -48,6 +53,11 @@ public class AccessLogViewer {
 	 * ファイルから読み込んだログの全データを格納するリスト
 	 */
 	private Logs logList = new Logs();
+	
+	
+	private DateTime fromDateTime;
+	
+	private DateTime afterDateTime;
 
 	/**
 	 * Launch the application.
@@ -147,12 +157,12 @@ public class AccessLogViewer {
 		Label lblNewLabel = new Label(shell, SWT.NONE);
 		lblNewLabel.setText("\u958B\u59CB\u65E5");
 		
-		DateTime dateTime = new DateTime(shell, SWT.BORDER);
+		fromDateTime = new DateTime(shell, SWT.BORDER);
 		
 		Label lblNewLabel_1 = new Label(shell, SWT.NONE);
 		lblNewLabel_1.setText("\u3000\u3000\u7D42\u4E86\u65E5");
 		
-		DateTime dateTime_1 = new DateTime(shell, SWT.BORDER);
+		afterDateTime = new DateTime(shell, SWT.BORDER);
 		
 		Button btnNewButton = new Button(shell, SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
@@ -202,24 +212,25 @@ public class AccessLogViewer {
 		
 		// 読み込んだファイルデータから表を作成する
 		for (int i = 0; i < dataList.size(); i++) {
-			LogModel logModel = new LogModel();
-			Object[] data = logModel.analyze(dataList.get(i));
-			logList.appendLog(logModel);
+			LogModel log = new LogModel();
+			Object[] data = log.analyze(dataList.get(i));
+			logList.appendLog(log);
 			TableItem item = new TableItem(table, SWT.NULL);
 			// HTTPステータスコードを見て 50x や 40x ならその行を赤色にする
-			String httpStatusCode = logModel.getHttpStatusCode();
+			String httpStatusCode = log.getHttpStatusCode();
 			if (httpStatusCode.contains("50")
 					|| httpStatusCode.contains("40")) {
 				Color red = new Color(Display.getDefault(), 0xFF, 0x00, 0x00);
 				item.setForeground(red);
 			}
-			item.setText(0, new Date((String) data[3]).get());  // 日時
-			item.setText(1, (String)data[4]);  // URL
-			item.setText(2, (String) data[5]); // HTTPステータスコード
-			item.setText(3, (String) data[6]); // レスポンスサイズ
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			item.setText(0, df.format(log.getDate()));  // 日時
+			item.setText(1, log.getURL());  // URL
+			item.setText(2, log.getHttpStatusCode()); // HTTPステータスコード
+			item.setText(3, log.getProcessingTime()); // レスポンスサイズ
 
-			if (httpStatusCodeList.contains(logModel.getHttpStatusCode()) == false) {
-				httpStatusCodeList.add(logModel.getHttpStatusCode());
+			if (httpStatusCodeList.contains(log.getHttpStatusCode()) == false) {
+				httpStatusCodeList.add(log.getHttpStatusCode());
 			}
 		}
 		
@@ -238,27 +249,30 @@ public class AccessLogViewer {
 			mntmNewItem.setText(httpStatusCode);
 			mntmNewItem.setSelection(true);
 		}
+		
+		setDateTime();
 	}
 	
 	/**
 	 * 再描画を行う
 	 */
+	@SuppressWarnings("deprecation")
 	private void redraw() {
 		table.removeAll();
-		MenuItem menuItems[] = mntmHttpStatusCode.getItems();
 		Iterator<LogModel> it = logList.iterator();
 		while( it.hasNext() ) {
 			LogModel log = it.next();
 			String httpStatusCode = log.getHttpStatusCode();
 			
-			if (selectedCheckBox(menuItems, httpStatusCode)) {
+			if (isDisplay(log)) {
 				TableItem item = new TableItem(table, SWT.NULL);
 				if (httpStatusCode.contains("50")
 						|| httpStatusCode.contains("40")) {
 					Color red = new Color(Display.getDefault(), 0xFF, 0x00, 0x00);
 					item.setForeground(red);
 				}
-				item.setText(0, log.getDate());  // 日時
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				item.setText(0, df.format(log.getDate()));  // 日時
 				item.setText(1, log.getURL());
 				item.setText(2, log.getHttpStatusCode());
 				item.setText(3, log.getProcessingTime());
@@ -280,5 +294,56 @@ public class AccessLogViewer {
 		}
 		
 		return false;
+	}
+	
+	private void setDateTime() {
+		Calendar cal = Calendar.getInstance();
+		Date date = logList.getMinDate();
+		cal.setTime(date);
+		fromDateTime.setDate(
+				cal.get(Calendar.YEAR),
+				cal.get(Calendar.MONTH),
+				cal.get(Calendar.DATE));
+		date = logList.getMaxDate();
+		cal.setTime(date);
+		afterDateTime.setDate(
+				cal.get(Calendar.YEAR), 
+				cal.get(Calendar.MONTH), 
+				cal.get(Calendar.DATE));
+	}
+	
+	/**
+	 * ログが表示すべきものかどうか判定
+	 * @return
+	 */
+	private boolean isDisplay(LogModel log) {
+		//HTTPステータスコードで判定
+		MenuItem menuItems[] = mntmHttpStatusCode.getItems();
+		String httpStatusCode = log.getHttpStatusCode();
+		if (selectedCheckBox(menuItems, httpStatusCode) == false) {
+			return false;
+		}
+		
+		//日付で判定
+		Calendar from = Calendar.getInstance(Locale.JAPAN);
+		Calendar after = Calendar.getInstance(Locale.JAPAN);
+		Calendar logCal = Calendar.getInstance(Locale.JAPAN);
+		int fromYear = fromDateTime.getYear();
+		int fromMonth = fromDateTime.getMonth();
+		int fromDay = fromDateTime.getDay();
+		from.set(fromYear, fromMonth, fromDay);
+		int afterYear = afterDateTime.getYear();
+		int afterMonth = afterDateTime.getMonth();
+		int afterDay = afterDateTime.getDay() + 1;
+		after.set(afterYear, afterMonth, afterDay);
+		
+		Date date = log.getDate();
+		logCal.setTime(date);
+		
+		if ( from.after(logCal) || after.before(logCal)){
+			return false;
+		}
+		
+		return true;
 	}
 }
