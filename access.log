@@ -40,5 +40,5 @@
 127.0.0.1 - - [15/Jul/2009:22:50:04 +0900] "GET /images/logo.png HTTP/1.1" 200 19919
 127.0.0.1 - - [15/Jul/2009:22:50:06 +0900] "GET /ref/java/core/format/num.html HTTP/1.1" 200 5178
 127.0.0.1 - - [15/Jul/2009:22:50:06 +0900] "GET /style.css HTTP/1.1" 200 2820
-127.0.0.1 - - [15/Jul/2011:22:50:06 +0900] "GET /images/categoryLine.png HTTP/1.1" 200 228
-127.0.0.1 - - [15/Jul/2012:22:50:06 +0900] "GET /images/logo.png HTTP/1.1" 200 19919
+127.0.0.1 - - [15/Jul/2009:22:50:06 +0900] "GET /images/categoryLine.png HTTP/1.1" 200 228
+127.0.0.1 - - [15/Jul/2009:22:50:06 +0900] "GET /images/logo.png HTTP/1.1" 200 19919
