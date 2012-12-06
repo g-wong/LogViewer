@@ -115,7 +115,7 @@ public class OpenFileDialog extends Dialog {
 			// Cancel ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Ì“®ì
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				result = new ArrayList<StringBuffer>();
+				result = null;
 				shlOpenFiles.dispose();
 			}	
 		});
