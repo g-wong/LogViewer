@@ -11,6 +11,8 @@ import jp.co.geo.model.Logs;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -18,56 +20,43 @@ import org.jfree.data.category.DefaultCategoryDataset;
 public class GraphViewer extends JFrame{
 	
 	private DefaultCategoryDataset data = new DefaultCategoryDataset();;
-	
-	public static void main(String[] args) {
-		GraphViewer frame = new GraphViewer();
-		frame.plot();
 
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(10, 10, 500, 500);
-		frame.setTitle("グラフサンプル");
-		frame.setVisible(true);
-	}
-
-	public GraphViewer(){
-	    String[] series = {"米国", "中国", "インド"};
-	    String[] category = {"2005年", "2006年", "2007年"};
-
-	    data.addValue(300, series[0], category[0]);
-	    data.addValue(500, series[0], category[1]);
-	    data.addValue(400, series[0], category[2]);
-	    data.addValue(200, series[1], category[0]);
-	    data.addValue(600, series[1], category[1]);
-	    data.addValue(200, series[1], category[2]);
-	    data.addValue(100, series[2], category[0]);
-	    data.addValue(150, series[2], category[1]);
-	    data.addValue(700, series[2], category[2]);
-
-	    
-		
+	public GraphViewer(Logs logs){
+		setData(logs);
 	}
 	
 	public void setData(Logs logs) {
-		Iterator it = logs.iterator();
-		
-		while (it.hasNext()) {
-			LogModel log = (LogModel) it.next();
-			log.getDate();
+		AccessCounter counter = new AccessCounter(logs);
+		counter.setRange(10);
+		counter.setUnit("second");
+		Integer cnt[] = counter.getCount();
+		System.out.println(cnt.length);
+		for (int i = 0; i < cnt.length; i++) {
+			data.addValue(cnt[i], "Count", counter.getTime(i));
+			
 		}
 	}
 	
 	public void plot() {
 		JFreeChart chart = 
-			      ChartFactory.createLineChart("輸入量",
-			                                   "年度",
-			                                   "トン(t)",
+			      ChartFactory.createLineChart("Access Count",
+			                                   "Time",
+			                                   "count",
 			                                   data,
 			                                   PlotOrientation.VERTICAL,
 			                                   true,
 			                                   false,
 			                                   false);
-				ChartPanel cpanel = new ChartPanel(chart);
-			    getContentPane().add(cpanel, BorderLayout.CENTER);
+		setChartForm(chart);
+		ChartPanel cpanel = new ChartPanel(chart);
+	    getContentPane().add(cpanel, BorderLayout.CENTER);
+	    this.setVisible(true);
+	}
+	
+	private void setChartForm(JFreeChart chart) {
+		final CategoryPlot plot = chart.getCategoryPlot();
+		final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 	}
 }
 

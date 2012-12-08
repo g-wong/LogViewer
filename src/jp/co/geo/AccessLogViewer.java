@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Locale;
 
+import javax.swing.JFrame;
+
 import jp.co.geo.model.LogModel;
 import jp.co.geo.model.Logs;
 import jp.co.geo.table.TableSortListener;
@@ -32,6 +34,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Button;
 
 import com.ibm.icu.util.Calendar;
+import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
+import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
 public class AccessLogViewer {
 
@@ -94,7 +98,6 @@ public class AccessLogViewer {
 		shell = new Shell();
 		shell.setSize(615, 501);
 		shell.setText("Apache Access Log");
-		shell.setLayout(new GridLayout(5, false));
 		
 		Menu menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);
@@ -152,6 +155,15 @@ public class AccessLogViewer {
 		mntmTool.setMenu(menu_2);
 		
 		MenuItem mntmGraph = new MenuItem(menu_2, SWT.NONE);
+		mntmGraph.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				GraphViewer graph = new GraphViewer(logList);
+				graph.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			    graph.setBounds(10, 10, 500, 500);
+				graph.plot();
+			}
+		});
 		mntmGraph.setText("\u30B0\u30E9\u30D5");
 		
 		Label lblNewLabel = new Label(shell, SWT.NONE);
@@ -171,11 +183,18 @@ public class AccessLogViewer {
 				redraw();
 			}
 		});
-		btnNewButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		btnNewButton.setText("\u518D\u63CF\u753B");
 		
+		Button btnRst = new Button(shell, SWT.NONE);
+		btnRst.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				resetTable();
+			}
+		});
+		btnRst.setText("\u30EA\u30BB\u30C3\u30C8");
+		
 		table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 5, 1));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
@@ -200,6 +219,46 @@ public class AccessLogViewer {
 		tblclmnNewColumn.addSelectionListener(new TableSortListener(table));
 		tblclmnNewColumn.setWidth(100);
 		tblclmnNewColumn.setText("\u51E6\u7406\u6642\u9593(\u30DF\u30EA\u79D2)");
+		GroupLayout gl_shell = new GroupLayout(shell);
+		gl_shell.setHorizontalGroup(
+			gl_shell.createParallelGroup(GroupLayout.LEADING)
+				.add(gl_shell.createSequentialGroup()
+					.add(5)
+					.add(gl_shell.createParallelGroup(GroupLayout.LEADING)
+						.add(gl_shell.createSequentialGroup()
+							.add(lblNewLabel)
+							.add(5)
+							.add(fromDateTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.add(5)
+							.add(lblNewLabel_1)
+							.add(5)
+							.add(afterDateTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.add(175)
+							.add(btnNewButton)
+							.addPreferredGap(LayoutStyle.RELATED)
+							.add(btnRst))
+						.add(table, GroupLayout.PREFERRED_SIZE, 589, GroupLayout.PREFERRED_SIZE)))
+		);
+		gl_shell.setVerticalGroup(
+			gl_shell.createParallelGroup(GroupLayout.LEADING)
+				.add(gl_shell.createSequentialGroup()
+					.add(5)
+					.add(gl_shell.createParallelGroup(GroupLayout.LEADING)
+						.add(gl_shell.createSequentialGroup()
+							.add(5)
+							.add(lblNewLabel))
+						.add(fromDateTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.add(gl_shell.createSequentialGroup()
+							.add(5)
+							.add(lblNewLabel_1))
+						.add(afterDateTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.add(gl_shell.createParallelGroup(GroupLayout.BASELINE)
+							.add(btnRst)
+							.add(btnNewButton)))
+					.add(5)
+					.add(table, GroupLayout.PREFERRED_SIZE, 402, GroupLayout.PREFERRED_SIZE))
+		);
+		shell.setLayout(gl_shell);
 
 	}
 	
@@ -345,5 +404,11 @@ public class AccessLogViewer {
 		}
 		
 		return true;
+	}
+	
+	private void resetTable() {
+		table.removeAll();
+		logList = new Logs();
+		
 	}
 }
