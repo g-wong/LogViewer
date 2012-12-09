@@ -323,11 +323,15 @@ public class AccessLogViewer {
 		Calendar cal = Calendar.getInstance();
 		Date date = logList.getMinDate();
 		cal.setTime(date);
-		fromDateTime.setHours(cal.get(Calendar.HOUR));
-		fromDateTime.setMinutes(cal.get(Calendar.MINUTE));
-		fromDateTime.setSeconds(cal.get(Calendar.MINUTE));
+		fromDateTime.setYear(cal.get(Calendar.YEAR));
+		fromDateTime.setMonth(cal.get(Calendar.MONTH));
+		fromDateTime.setDay(cal.get(Calendar.DATE));
+		
 		date = logList.getMaxDate();
 		cal.setTime(date);
+		afterDateTime.setYear(cal.get(Calendar.YEAR));
+		afterDateTime.setMonth(cal.get(Calendar.MONTH));
+		afterDateTime.setDay(cal.get(Calendar.DATE));
 	}
 	
 	/**
