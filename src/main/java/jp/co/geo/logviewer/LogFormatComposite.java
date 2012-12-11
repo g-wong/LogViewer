@@ -42,14 +42,17 @@ public class LogFormatComposite extends Composite {
 		lblNewLabel.setText("書式");
 		
 		text = new Text(this, SWT.BORDER);
-		text.setText("{0} {1} {2} [{3}] \\\"{4}\\\" {5} {6}");
+		text.setText("{0} {1} {2} [{3}] \"{4}\" {5} {6}");
 		
 		Group group = new Group(this, SWT.NONE);
 		group.setText("テーブルに表示する列名とタイプを指定");
-		group.setLayout(new FillLayout(SWT.HORIZONTAL));
+		group.setLayout(new GridLayout(1, false));
 		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		
 		table = new Table(group, SWT.BORDER | SWT.FULL_SELECTION);
+		GridData gd_table = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_table.widthHint = 275;
+		table.setLayoutData(gd_table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
@@ -62,7 +65,7 @@ public class LogFormatComposite extends Composite {
 		tblclmnType.setText("タイプ");
 		
 		TableColumn tblclmnName = new TableColumn(table, SWT.NONE);
-		tblclmnName.setWidth(164);
+		tblclmnName.setWidth(157);
 		tblclmnName.setText("表示列名");
 		
 		TableItem tableItem = new TableItem(table, SWT.NONE);
@@ -77,9 +80,8 @@ public class LogFormatComposite extends Composite {
 		
 		TableItem tableItem_3 = new TableItem(table, SWT.NONE);
 		tableItem_3.setText(new String[] {"6", "INT", "サイズ(Byte)"});
-		new Label(this, SWT.NONE);
 		
-		Label label = new Label(this, SWT.NONE);
+		Label label = new Label(group, SWT.NONE);
 		label.setText("※省略すると表示されません");
 		
 		Group group_1 = new Group(this, SWT.NONE);
@@ -93,10 +95,11 @@ public class LogFormatComposite extends Composite {
 		lblNewLabel_1.setText("時刻形式");
 		
 		txtDdmmmyyyyhhmmssZ = new Text(group_1, SWT.BORDER);
+		txtDdmmmyyyyhhmmssZ.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		txtDdmmmyyyyhhmmssZ.setText("dd/MMM/yyyy:HH:mm:ss Z");
-		GridData gd_txtDdmmmyyyyhhmmssZ = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_txtDdmmmyyyyhhmmssZ.widthHint = 207;
-		txtDdmmmyyyyhhmmssZ.setLayoutData(gd_txtDdmmmyyyyhhmmssZ);
+		
+		Label label_1 = new Label(group_1, SWT.NONE);
+		new Label(group_1, SWT.NONE);
 		
 		SashForm sashForm = new SashForm(this, SWT.NONE);
 		sashForm.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 2, 1));
