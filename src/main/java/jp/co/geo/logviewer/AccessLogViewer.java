@@ -165,6 +165,18 @@ public class AccessLogViewer {
 			}
 		});
 		mntmGraph.setText("\u30B0\u30E9\u30D5");
+		
+		MenuItem menuItem_2 = new MenuItem(menu, SWT.CASCADE);
+		menuItem_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				new SettingWindow(Display.getDefault());
+			}
+		});
+		menuItem_2.setText("設定");
+		
+		Menu menu_4 = new Menu(menuItem_2);
+		menuItem_2.setMenu(menu_4);
 		new Label(shell, SWT.NONE);
 		
 		Label lblNewLabel = new Label(shell, SWT.NONE);
