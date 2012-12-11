@@ -61,7 +61,10 @@ public class SettingWindow extends Shell {
 		Composite mainComposite = new Composite(this, SWT.NONE);
 		mainComposite.setLayout(new GridLayout(1, false));
 		mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		new LogFormatComposite(mainComposite, SWT.FILL);
+		LogFormatComposite logFormatComposite = new LogFormatComposite(mainComposite, SWT.FILL);
+		new Label(logFormatComposite, SWT.NONE);
+		new Label(logFormatComposite, SWT.NONE);
+		new Label(logFormatComposite, SWT.NONE);
 		
 		Label label = new Label(this, SWT.SEPARATOR | SWT.HORIZONTAL);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
@@ -84,7 +87,7 @@ public class SettingWindow extends Shell {
 	 * Create contents of the shell.
 	 */
 	protected void createContents() {
-		setText("SWT Application");
+		setText("設定画面");
 		setSize(486, 460);
 	}
 

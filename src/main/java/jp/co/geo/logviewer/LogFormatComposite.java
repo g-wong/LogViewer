@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Menu;
 import swing2swt.layout.FlowLayout;
 import swing2swt.layout.BorderLayout;
 import swing2swt.layout.BoxLayout;
+import org.eclipse.swt.widgets.TableItem;
 
 public class LogFormatComposite extends Composite {
 	private Text text;
@@ -41,7 +42,7 @@ public class LogFormatComposite extends Composite {
 		lblNewLabel.setText("書式");
 		
 		text = new Text(this, SWT.BORDER);
-		text.setText("{0} {1} {2} [{3} +{4}] \\\"{5}\\\" {6} {7}");
+		text.setText("{0} {1} {2} [{3}] \\\"{4}\\\" {5} {6}");
 		
 		Group group = new Group(this, SWT.NONE);
 		group.setText("テーブルに表示する列名とタイプを指定");
@@ -57,12 +58,25 @@ public class LogFormatComposite extends Composite {
 		tblclmnNum.setText("#");
 		
 		TableColumn tblclmnType = new TableColumn(table, SWT.NONE);
-		tblclmnType.setWidth(100);
+		tblclmnType.setWidth(110);
 		tblclmnType.setText("タイプ");
 		
 		TableColumn tblclmnName = new TableColumn(table, SWT.NONE);
 		tblclmnName.setWidth(164);
 		tblclmnName.setText("表示列名");
+		
+		TableItem tableItem = new TableItem(table, SWT.NONE);
+		String text[] = {"4", "Time", "時刻"};
+		tableItem.setText(new String[] {"3", "Time", "時刻"});
+		
+		TableItem tableItem_1 = new TableItem(table, SWT.NONE);
+		tableItem_1.setText(new String[] {"4", "URL", "リクエストURL"});
+		
+		TableItem tableItem_2 = new TableItem(table, SWT.NONE);
+		tableItem_2.setText(new String[] {"5", "CODE", "HTTPステータスコード"});
+		
+		TableItem tableItem_3 = new TableItem(table, SWT.NONE);
+		tableItem_3.setText(new String[] {"6", "INT", "サイズ(Byte)"});
 		new Label(this, SWT.NONE);
 		
 		Label label = new Label(this, SWT.NONE);
@@ -76,7 +90,7 @@ public class LogFormatComposite extends Composite {
 		group_1.setLayoutData(gd_group_1);
 		
 		Label lblNewLabel_1 = new Label(group_1, SWT.NONE);
-		lblNewLabel_1.setText("時間形式");
+		lblNewLabel_1.setText("時刻形式");
 		
 		txtDdmmmyyyyhhmmssZ = new Text(group_1, SWT.BORDER);
 		txtDdmmmyyyyhhmmssZ.setText("dd/MMM/yyyy:HH:mm:ss Z");
