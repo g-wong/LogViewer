@@ -15,7 +15,7 @@ public class LogModel {
     Object[] message;
     
 	public LogModel() {
-        format = new MessageFormat("{0} {1} {2} [{3} +{4}] \"{5}\" {6} {7}");
+        format = new MessageFormat("{0} {1} {2} [{3}] \"{4}\" {5} {6}");
 	}
 	
 	
@@ -40,27 +40,29 @@ public class LogModel {
 		return null;
 	}
 	
-	/**
-	 * HTTPステータスコードを取得する
-	 * @return
-	 */
-	public String getHttpStatusCode() {
-		return (String) message[6];
-	}
 	
 	public Date getDate() {
 		Date date = null;
-		DateFormat df = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss", Locale.ENGLISH);
+		DateFormat df = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss Z", Locale.ENGLISH);
 		ParsePosition pos = new ParsePosition(0);
 		date = df.parse((String) message[3], pos);
 		return date;
 	}
 	
 	public String getURL() {
+		return (String) message[4];
+	}
+	
+
+	/**
+	 * HTTPステータスコードを取得する
+	 * @return
+	 */
+	public String getHttpStatusCode() {
 		return (String) message[5];
 	}
 	
 	public String getProcessingTime() {
-		return (String) message[7];
+		return (String) message[6];
 	}
 }
