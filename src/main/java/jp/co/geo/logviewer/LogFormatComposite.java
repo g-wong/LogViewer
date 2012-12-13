@@ -23,11 +23,14 @@ import swing2swt.layout.FlowLayout;
 import swing2swt.layout.BorderLayout;
 import swing2swt.layout.BoxLayout;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class LogFormatComposite extends Composite {
-	private Text text;
+	
+	private Text textLogFormat;
 	private Table table;
-	private Text txtDdmmmyyyyhhmmssZ;
+	private Text txtTimeFormat;
 
 	/**
 	 * Create the composite.
@@ -41,13 +44,16 @@ public class LogFormatComposite extends Composite {
 		Label lblNewLabel = new Label(this, SWT.NONE);
 		lblNewLabel.setText("書式");
 		
-		text = new Text(this, SWT.BORDER);
-		text.setText("{0} {1} {2} [{3}] \"{4}\" {5} {6}");
+		textLogFormat = new Text(this, SWT.BORDER);
+		textLogFormat.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		textLogFormat.setText("{0} {1} {2} [{3}] \"{4}\" {5} {6}");
 		
 		Group group = new Group(this, SWT.NONE);
 		group.setText("テーブルに表示する列名とタイプを指定");
-		group.setLayout(new GridLayout(1, false));
-		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		group.setLayout(new GridLayout(2, false));
+		GridData gd_group = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
+		gd_group.heightHint = 174;
+		group.setLayoutData(gd_group);
 		
 		table = new Table(group, SWT.BORDER | SWT.FULL_SELECTION);
 		GridData gd_table = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
@@ -81,8 +87,25 @@ public class LogFormatComposite extends Composite {
 		TableItem tableItem_3 = new TableItem(table, SWT.NONE);
 		tableItem_3.setText(new String[] {"6", "INT", "サイズ(Byte)"});
 		
+		Composite composite = new Composite(group, SWT.NONE);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		composite.setLayout(new GridLayout(1, false));
+		
+		Button btnNewButton = new Button(composite, SWT.NONE);
+		btnNewButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnNewButton.setText("行の追加");
+		
+		Button btnNewButton_1 = new Button(composite, SWT.NONE);
+		btnNewButton_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnNewButton_1.setText("行の編集");
+		
+		Button btnNewButton_2 = new Button(composite, SWT.NONE);
+		btnNewButton_2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnNewButton_2.setText("行の削除");
+		
 		Label label = new Label(group, SWT.NONE);
 		label.setText("※省略すると表示されません");
+		new Label(group, SWT.NONE);
 		
 		Group group_1 = new Group(this, SWT.NONE);
 		group_1.setLayout(new GridLayout(2, false));
@@ -94,9 +117,11 @@ public class LogFormatComposite extends Composite {
 		Label lblNewLabel_1 = new Label(group_1, SWT.NONE);
 		lblNewLabel_1.setText("時刻形式");
 		
-		txtDdmmmyyyyhhmmssZ = new Text(group_1, SWT.BORDER);
-		txtDdmmmyyyyhhmmssZ.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		txtDdmmmyyyyhhmmssZ.setText("dd/MMM/yyyy:HH:mm:ss Z");
+		txtTimeFormat = new Text(group_1, SWT.BORDER);
+		GridData gd_txtTimeFormat = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_txtTimeFormat.widthHint = 202;
+		txtTimeFormat.setLayoutData(gd_txtTimeFormat);
+		txtTimeFormat.setText("dd/MMM/yyyy:HH:mm:ss Z");
 		
 		Label label_1 = new Label(group_1, SWT.NONE);
 		new Label(group_1, SWT.NONE);
@@ -109,15 +134,20 @@ public class LogFormatComposite extends Composite {
 		
 		Button btnExport = new Button(sashForm, SWT.NONE);
 		btnExport.setText("エクスポート");
-		
-		Button btnApply = new Button(sashForm, SWT.NONE);
-		btnApply.setText("適用");
-		sashForm.setWeights(new int[] {1, 1, 1});
+		sashForm.setWeights(new int[] {1, 1});
 
 	}
 
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
+	}
+	
+	public String getLogFormat() {
+		return textLogFormat.getText();
+	}
+	
+	public String getTimeFormat() {
+		return txtTimeFormat.getText();
 	}
 }

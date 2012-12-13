@@ -58,13 +58,13 @@ public class SettingWindow extends Shell {
 		TreeItem treeItem = new TreeItem(tree, SWT.NONE);
 		treeItem.setText("ログフォーマット");
 		
-		Composite mainComposite = new Composite(this, SWT.NONE);
+		mainComposite = new Composite(this, SWT.NONE);
 		mainComposite.setLayout(new GridLayout(1, false));
 		mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		LogFormatComposite logFormatComposite = new LogFormatComposite(mainComposite, SWT.FILL);
-		new Label(logFormatComposite, SWT.NONE);
-		new Label(logFormatComposite, SWT.NONE);
-		new Label(logFormatComposite, SWT.NONE);
+		GridData gd_logFormatComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_logFormatComposite.heightHint = 329;
+		logFormatComposite.setLayoutData(gd_logFormatComposite);
 		
 		Label label = new Label(this, SWT.SEPARATOR | SWT.HORIZONTAL);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
@@ -88,7 +88,7 @@ public class SettingWindow extends Shell {
 	 */
 	protected void createContents() {
 		setText("設定画面");
-		setSize(486, 460);
+		setSize(555, 478);
 	}
 
 	@Override

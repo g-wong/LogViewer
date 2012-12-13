@@ -120,7 +120,7 @@ public class AccessLogViewer {
 			 */
 			public void widgetSelected(SelectionEvent e) {
 				// ファイルダイアログを開く
-				OpenFileDialog openFileDialog = new OpenFileDialog(shell, SWT.PRIMARY_MODAL);
+				OpenFileDialog openFileDialog = new OpenFileDialog(shell, SWT.APPLICATION_MODAL);
 				ArrayList<StringBuffer> openFile = (ArrayList<StringBuffer>) openFileDialog.open();
 				setData(openFile);
 				return;
@@ -170,8 +170,8 @@ public class AccessLogViewer {
 		menuItem_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				SettingWindow settingWindow = new SettingWindow(Display.getDefault());
-				settingWindow.open();
+				SettingDialog settingDialog = new SettingDialog(shell, SWT.CLOSE | SWT.PRIMARY_MODAL);
+				settingDialog.open();
 			}
 		});
 		menuItem_2.setText("設定");
