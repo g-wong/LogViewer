@@ -16,11 +16,14 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class SettingDialog extends Dialog {
 
 	protected Object result;
 	protected Shell shell;
+	LogFormatComposite logFormatComposite;
 
 	/**
 	 * Create the dialog.
@@ -70,10 +73,16 @@ public class SettingDialog extends Dialog {
 		Composite mainComposite = new Composite(sashForm, SWT.NONE);
 		mainComposite.setLayout(new GridLayout(1, false));
 		mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		LogFormatComposite logFormatComposite = new LogFormatComposite(mainComposite, SWT.FILL);
+		
+		// ログのフォーマットを設定
+		logFormatComposite = new LogFormatComposite(mainComposite, SWT.FILL);
 		GridData gd_logFormatComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_logFormatComposite.heightHint = 329;
 		logFormatComposite.setLayoutData(gd_logFormatComposite);
+		new Label(logFormatComposite, SWT.NONE);
+		new Label(logFormatComposite, SWT.NONE);
+		new Label(logFormatComposite, SWT.NONE);
+		new Label(logFormatComposite, SWT.NONE);
 		new Label(logFormatComposite, SWT.NONE);
 		new Label(logFormatComposite, SWT.NONE);
 		new Label(logFormatComposite, SWT.NONE);
@@ -83,13 +92,31 @@ public class SettingDialog extends Dialog {
 		composite.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		composite.setLayout(new RowLayout(SWT.HORIZONTAL));
 		
+		// OKボタン
 		Button btnNewButton = new Button(composite, SWT.NONE);
+		btnNewButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				setResult();
+				shell.dispose();
+			}
+		});
 		btnNewButton.setLayoutData(new RowData(70, SWT.DEFAULT));
 		btnNewButton.setText("OK");
 		
 		Button btnNewButton_1 = new Button(composite, SWT.NONE);
+		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				shell.dispose();
+			}
+		});
 		btnNewButton_1.setLayoutData(new RowData(70, SWT.DEFAULT));
 		btnNewButton_1.setText("Cancel");
 
+	}
+	
+	private void setResult() {
+		result = logFormatComposite.getResult();
 	}
 }

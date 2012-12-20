@@ -1,5 +1,10 @@
 package jp.co.geo.logviewer;
 
+import java.util.ArrayList;
+
+import jp.co.geo.logviewer.model.AccessLogFormat;
+import jp.co.geo.logviewer.model.LogItemType;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Label;
@@ -76,16 +81,16 @@ public class LogFormatComposite extends Composite {
 		
 		TableItem tableItem = new TableItem(table, SWT.NONE);
 		String text[] = {"4", "Time", "時刻"};
-		tableItem.setText(new String[] {"3", "Time", "時刻"});
+		tableItem.setText(new String[] {"3", "TIME", "時刻"});
 		
 		TableItem tableItem_1 = new TableItem(table, SWT.NONE);
 		tableItem_1.setText(new String[] {"4", "URL", "リクエストURL"});
 		
 		TableItem tableItem_2 = new TableItem(table, SWT.NONE);
-		tableItem_2.setText(new String[] {"5", "CODE", "HTTPステータスコード"});
+		tableItem_2.setText(new String[] {"5", "STATUS", "HTTPステータスコード"});
 		
 		TableItem tableItem_3 = new TableItem(table, SWT.NONE);
-		tableItem_3.setText(new String[] {"6", "INT", "サイズ(Byte)"});
+		tableItem_3.setText(new String[] {"6", "SIZE", "サイズ(Byte)"});
 		
 		Composite composite = new Composite(group, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
@@ -149,5 +154,29 @@ public class LogFormatComposite extends Composite {
 	
 	public String getTimeFormat() {
 		return txtTimeFormat.getText();
+	}
+	
+	public Object getResult() {
+		String logFormat = getLogFormat();
+		String timeFormat = getTimeFormat();
+		TableItem[] item = table.getItems();
+		ArrayList types = new ArrayList();
+		for(int i = 0; i < item.length; i++) {
+			int index = new Integer(item[i].getText(0)).intValue();
+			String name = item[i].getText(1);
+			String description = item[i].getText(2);
+			LogItemType type = LogItemType.getLogItemType(name);
+			if (null != type) {
+				type.setDescription(description);
+				type.setIndex(index);
+			} else {
+				System.err.println("Error : 定義されていないログのタイプが指定されました " + name);
+			}
+			
+		}
+		AccessLogFormat format 
+			= new AccessLogFormat(logFormat, timeFormat, types);
+		
+		return format;
 	}
 }

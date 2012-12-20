@@ -12,6 +12,8 @@ import java.util.Locale;
 
 import javax.swing.JFrame;
 
+import jp.co.geo.logviewer.model.AccessLogFormat;
+import jp.co.geo.logviewer.model.LogItemType;
 import jp.co.geo.logviewer.model.LogModel;
 import jp.co.geo.logviewer.model.Logs;
 import jp.co.geo.logviewer.table.TableSortListener;
@@ -62,6 +64,8 @@ public class AccessLogViewer {
 	private DateTime fromDateTime;
 	
 	private DateTime afterDateTime;
+	
+	private Object setting;
 
 	/**
 	 * Launch the application.
@@ -171,7 +175,8 @@ public class AccessLogViewer {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				SettingDialog settingDialog = new SettingDialog(shell, SWT.CLOSE | SWT.PRIMARY_MODAL);
-				settingDialog.open();
+				setting = settingDialog.open();
+				setTableClumn();
 			}
 		});
 		menuItem_2.setText("設定");
@@ -227,8 +232,6 @@ public class AccessLogViewer {
 		tblclmnHttpStatusCode.setWidth(87);
 		tblclmnHttpStatusCode.setText("\u30B9\u30C6\u30FC\u30BF\u30B9\u30B3\u30FC\u30C9");
 		
-		TableCursor tableCursor = new TableCursor(table, SWT.NONE);
-		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn.addSelectionListener(new TableSortListener(table));
 		tblclmnNewColumn.setWidth(100);
@@ -243,9 +246,12 @@ public class AccessLogViewer {
 	private void setData(ArrayList<StringBuffer> dataList){
 		if (dataList == null) return;
 		
+		if (setting == null) return;
+		AccessLogFormat format = (AccessLogFormat) setting;
+		
 		// 読み込んだファイルデータから表を作成する
 		for (int i = 0; i < dataList.size(); i++) {
-			LogModel log = new LogModel();
+			LogModel log = new LogModel(format);
 			Object[] data = log.analyze(dataList.get(i));
 			logList.appendLog(log);
 			TableItem item = new TableItem(table, SWT.NULL);
@@ -383,5 +389,27 @@ public class AccessLogViewer {
 		table.removeAll();
 		logList = new Logs();
 		
+	}
+	
+	private void setTableClumn() {
+		if (setting instanceof AccessLogFormat) {
+			resetTableAll();
+			ArrayList<LogItemType> types = ((AccessLogFormat) setting).getTypes();
+			for(int i = 0; i < types.size(); i++) {
+				LogItemType type = types.get(i);
+				TableColumn tblclmnAccessTime = new TableColumn(table, SWT.NONE);
+				tblclmnAccessTime.addSelectionListener(new TableSortListener(table));
+				tblclmnAccessTime.setWidth(72);
+				tblclmnAccessTime.setText(type.toString());
+			}
+			table.redraw();
+		}
+	}
+	
+	private void resetTableAll(){
+		table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 7, 1));
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 	}
 }

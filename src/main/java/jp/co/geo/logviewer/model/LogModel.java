@@ -10,12 +10,12 @@ import java.util.Locale;
 
 public class LogModel {
 	
-    MessageFormat format;
+    LogFormat format;
 	
     Object[] message;
     
-	public LogModel() {
-        format = new MessageFormat("{0} {1} {2} [{3}] \"{4}\" {5} {6}");
+	public LogModel(LogFormat format) {
+		this.format = format;
 	}
 	
 	
@@ -29,28 +29,21 @@ public class LogModel {
 	 * @return
 	 */
 	public Object[] analyze(String str) {
-		try {
-			message = format.parse(str);
-			return message;
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
+		message = format.parse(str);
+		return message;
 	}
 	
 	
 	public Date getDate() {
 		Date date = null;
-		DateFormat df = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss Z", Locale.ENGLISH);
+		DateFormat df = new SimpleDateFormat(format.getTimeFormat(), Locale.ENGLISH);
 		ParsePosition pos = new ParsePosition(0);
-		date = df.parse((String) message[3], pos);
+		date = df.parse((String) message[LogItemType.TIME.index()], pos);
 		return date;
 	}
 	
 	public String getURL() {
-		return (String) message[4];
+		return (String) message[LogItemType.URL.index()];
 	}
 	
 
@@ -59,10 +52,10 @@ public class LogModel {
 	 * @return
 	 */
 	public String getHttpStatusCode() {
-		return (String) message[5];
+		return (String) message[LogItemType.STATUS.index()];
 	}
 	
 	public String getProcessingTime() {
-		return (String) message[6];
+		return (String) message[LogItemType.PROCESSING_TIME.index()];
 	}
 }
