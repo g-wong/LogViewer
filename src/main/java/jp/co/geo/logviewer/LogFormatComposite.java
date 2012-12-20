@@ -160,7 +160,7 @@ public class LogFormatComposite extends Composite {
 		String logFormat = getLogFormat();
 		String timeFormat = getTimeFormat();
 		TableItem[] item = table.getItems();
-		ArrayList types = new ArrayList();
+		ArrayList<LogItemType> types = new ArrayList<LogItemType>();
 		for(int i = 0; i < item.length; i++) {
 			int index = new Integer(item[i].getText(0)).intValue();
 			String name = item[i].getText(1);
@@ -169,6 +169,7 @@ public class LogFormatComposite extends Composite {
 			if (null != type) {
 				type.setDescription(description);
 				type.setIndex(index);
+				types.add(type);
 			} else {
 				System.err.println("Error : 定義されていないログのタイプが指定されました " + name);
 			}

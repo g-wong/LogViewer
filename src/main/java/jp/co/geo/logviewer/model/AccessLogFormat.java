@@ -26,8 +26,4 @@ public class AccessLogFormat extends LogFormat{
 		
 		return new AccessLogFormat(format, timeFormat, types);
 	}
-	
-	public ArrayList<LogItemType> getTypes() {
-		return types;
-	}
 }

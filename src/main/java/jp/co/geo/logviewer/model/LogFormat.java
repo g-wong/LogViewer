@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-abstract class LogFormat {
+abstract public class LogFormat {
 	private String format;
 	private MessageFormat messageFormat;
 	private String timeFormat;
@@ -63,5 +63,9 @@ abstract class LogFormat {
 		}
 		
 		return -1;
+	}
+	
+	public ArrayList<LogItemType> getTypes() {
+		return types;
 	}
 }

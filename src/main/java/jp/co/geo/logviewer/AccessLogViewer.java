@@ -13,6 +13,7 @@ import java.util.Locale;
 import javax.swing.JFrame;
 
 import jp.co.geo.logviewer.model.AccessLogFormat;
+import jp.co.geo.logviewer.model.LogFormat;
 import jp.co.geo.logviewer.model.LogItemType;
 import jp.co.geo.logviewer.model.LogModel;
 import jp.co.geo.logviewer.model.Logs;
@@ -392,24 +393,19 @@ public class AccessLogViewer {
 	}
 	
 	private void setTableClumn() {
-		if (setting instanceof AccessLogFormat) {
-			resetTableAll();
-			ArrayList<LogItemType> types = ((AccessLogFormat) setting).getTypes();
+		if (setting instanceof LogFormat) {
+			TableColumn clumn[] = table.getColumns();
+			ArrayList<LogItemType> types = ((LogFormat) setting).getTypes();
 			for(int i = 0; i < types.size(); i++) {
 				LogItemType type = types.get(i);
-				TableColumn tblclmnAccessTime = new TableColumn(table, SWT.NONE);
-				tblclmnAccessTime.addSelectionListener(new TableSortListener(table));
-				tblclmnAccessTime.setWidth(72);
-				tblclmnAccessTime.setText(type.toString());
+				if(clumn[i] == null) {
+					clumn[i] = new TableColumn(table, SWT.NONE);
+					clumn[i].addSelectionListener(new TableSortListener(table));
+				}
+				clumn[i].setWidth(75);
+				clumn[i].setText(type.description());
 			}
 			table.redraw();
 		}
-	}
-	
-	private void resetTableAll(){
-		table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 7, 1));
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
 	}
 }
