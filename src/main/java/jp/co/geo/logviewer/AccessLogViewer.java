@@ -45,18 +45,18 @@ public class AccessLogViewer {
 	private Table table;
 	
 	/**
-	 * HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰ã®è¡¨ç¤ºãƒ¡ãƒ‹ãƒ¥ãƒ¼
+	 * HTTPƒXƒe[ƒ^ƒXƒR[ƒh‚Ì•\¦ƒƒjƒ…[
 	 */
 	private Menu mntmHttpStatusCode;
 	
 	/**
-	 * HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰ã®ä¸€è¦§
-	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ­ã‚°ã‚’èª­ã¿è¾¼ã‚“ã éš›ã«é‡è¤‡ãªãä¸€è¦§ã«è¿½åŠ ã™ã‚‹
+	 * HTTPƒXƒe[ƒ^ƒXƒR[ƒh‚Ìˆê——
+	 * ƒtƒ@ƒCƒ‹‚©‚çƒƒO‚ğ“Ç‚İ‚ñ‚¾Û‚Éd•¡‚È‚­ˆê——‚É’Ç‰Á‚·‚é
 	 */
 	private ArrayList<String> httpStatusCodeList = new ArrayList<String>();
 	
 	/**
-	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã‚“ã ãƒ­ã‚°ã®å…¨ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹ãƒªã‚¹ãƒˆ
+	 * ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚ñ‚¾ƒƒO‚Ì‘Sƒf[ƒ^‚ğŠi”[‚·‚éƒŠƒXƒg
 	 */
 	private Logs logList = new Logs();
 	
@@ -120,10 +120,10 @@ public class AccessLogViewer {
 			@SuppressWarnings("unchecked")
 			@Override
 			/**
-			 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
+			 * ƒtƒ@ƒCƒ‹‚ğŠJ‚­
 			 */
 			public void widgetSelected(SelectionEvent e) {
-				// ãƒ•ã‚¡ã‚¤ãƒ«ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’é–‹ã
+				// ƒtƒ@ƒCƒ‹ƒ_ƒCƒAƒƒO‚ğŠJ‚­
 				OpenFileDialog openFileDialog = new OpenFileDialog(shell, SWT.APPLICATION_MODAL);
 				ArrayList<StringBuffer> openFile = (ArrayList<StringBuffer>) openFileDialog.open();
 				setData(openFile);
@@ -179,7 +179,7 @@ public class AccessLogViewer {
 				setTableClumn();
 			}
 		});
-		menuItem_2.setText("è¨­å®š");
+		menuItem_2.setText("İ’è");
 		new Label(shell, SWT.NONE);
 		
 		Label lblNewLabel = new Label(shell, SWT.NONE);
@@ -240,7 +240,7 @@ public class AccessLogViewer {
 	}
 	
 	/**
-	 * ãƒ­ã‚°ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰è¡¨ã‚’ä½œæˆã™ã‚‹
+	 * ƒƒOƒf[ƒ^‚©‚ç•\‚ğì¬‚·‚é
 	 * @param dataList
 	 */
 	private void setData(ArrayList<StringBuffer> dataList){
@@ -249,13 +249,13 @@ public class AccessLogViewer {
 		if (setting == null) return;
 		AccessLogFormat format = (AccessLogFormat) setting;
 		
-		// èª­ã¿è¾¼ã‚“ã ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰è¡¨ã‚’ä½œæˆã™ã‚‹
+		// “Ç‚İ‚ñ‚¾ƒtƒ@ƒCƒ‹ƒf[ƒ^‚©‚ç•\‚ğì¬‚·‚é
 		for (int i = 0; i < dataList.size(); i++) {
 			LogModel log = new LogModel(format);
 			Object[] data = log.analyze(dataList.get(i));
 			logList.appendLog(log);
 			TableItem item = new TableItem(table, SWT.NULL);
-			// HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’è¦‹ã¦ 50x ã‚„ 40x ãªã‚‰ãã®è¡Œã‚’èµ¤è‰²ã«ã™ã‚‹
+			// HTTPƒXƒe[ƒ^ƒXƒR[ƒh‚ğŒ©‚Ä 50x ‚â 40x ‚È‚ç‚»‚Ìs‚ğÔF‚É‚·‚é
 			String httpStatusCode = log.getHttpStatusCode();
 			if (httpStatusCode.contains("50")
 					|| httpStatusCode.contains("40")) {
@@ -263,17 +263,17 @@ public class AccessLogViewer {
 				item.setForeground(red);
 			}
 			DateFormat df = new SimpleDateFormat("HH:mm:ss");
-			item.setText(0, df.format(log.getDate()));  // æ—¥æ™‚
+			item.setText(0, df.format(log.getDate()));  // “ú
 			item.setText(1, log.getURL());  // URL
-			item.setText(2, log.getHttpStatusCode()); // HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰
-			item.setText(3, log.getProcessingTime()); // ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚µã‚¤ã‚º
+			item.setText(2, log.getHttpStatusCode()); // HTTPƒXƒe[ƒ^ƒXƒR[ƒh
+			item.setText(3, log.getProcessingTime()); // ƒŒƒXƒ|ƒ“ƒXƒTƒCƒY
 
 			if (httpStatusCodeList.contains(log.getHttpStatusCode()) == false) {
 				httpStatusCodeList.add(log.getHttpStatusCode());
 			}
 		}
 		
-		// HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’æ˜‡é †ã«ä¸¦ã¹ã‚‹
+		// HTTPƒXƒe[ƒ^ƒXƒR[ƒh‚ğ¸‡‚É•À‚×‚é
 		Collections.sort(httpStatusCodeList, new Comparator<String>(){
 				public int compare(String str1, String str2){
 					Integer val1 = new Integer(str1);
@@ -282,7 +282,7 @@ public class AccessLogViewer {
 				}
 			});
 		
-		// HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’è¡¨ç¤ºãƒ¡ãƒ‹ãƒ¥ãƒ¼ã«è¿½åŠ ã™ã‚‹
+		// HTTPƒXƒe[ƒ^ƒXƒR[ƒh‚ğ•\¦ƒƒjƒ…[‚É’Ç‰Á‚·‚é
 		for (String httpStatusCode : httpStatusCodeList) {
 			MenuItem mntmNewItem = new MenuItem(mntmHttpStatusCode, SWT.CHECK);
 			mntmNewItem.setText(httpStatusCode);
@@ -293,7 +293,7 @@ public class AccessLogViewer {
 	}
 	
 	/**
-	 * å†æç”»ã‚’è¡Œã†
+	 * Ä•`‰æ‚ğs‚¤
 	 */
 	@SuppressWarnings("deprecation")
 	private void redraw() {
@@ -311,7 +311,7 @@ public class AccessLogViewer {
 					item.setForeground(red);
 				}
 				DateFormat df = new SimpleDateFormat("HH:mm:ss");
-				item.setText(0, df.format(log.getDate()));  // æ—¥æ™‚
+				item.setText(0, df.format(log.getDate()));  // “ú
 				item.setText(1, log.getURL());
 				item.setText(2, log.getHttpStatusCode());
 				item.setText(3, log.getProcessingTime());
@@ -320,9 +320,9 @@ public class AccessLogViewer {
 	}
 
 	/**
-	 * ãƒã‚§ãƒƒã‚¯ãƒœãƒƒã‚¯ã‚¹ã§ãƒã‚§ãƒƒã‚¯ãŒè¡Œã‚ã‚Œã¦ã„ã‚‹ã‹ã‚’ç¢ºèªã™ã‚‹
-	 * @param items ãƒã‚§ãƒƒã‚¯ãƒœãƒƒã‚¯ã‚¹
-	 * @param target æ¤œç´¢å¯¾è±¡æ–‡å­—åˆ—
+	 * ƒ`ƒFƒbƒNƒ{ƒbƒNƒX‚Åƒ`ƒFƒbƒN‚ªs‚í‚ê‚Ä‚¢‚é‚©‚ğŠm”F‚·‚é
+	 * @param items ƒ`ƒFƒbƒNƒ{ƒbƒNƒX
+	 * @param target ŒŸõ‘ÎÛ•¶š—ñ
 	 * @return
 	 */
 	private boolean selectedCheckBox(MenuItem[] items, String target) {
@@ -351,18 +351,18 @@ public class AccessLogViewer {
 	}
 	
 	/**
-	 * ãƒ­ã‚°ãŒè¡¨ç¤ºã™ã¹ãã‚‚ã®ã‹ã©ã†ã‹åˆ¤å®š
+	 * ƒƒO‚ª•\¦‚·‚×‚«‚à‚Ì‚©‚Ç‚¤‚©”»’è
 	 * @return
 	 */
 	private boolean isDisplay(LogModel log) {
-		//HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰ã§åˆ¤å®š
+		//HTTPƒXƒe[ƒ^ƒXƒR[ƒh‚Å”»’è
 		MenuItem menuItems[] = mntmHttpStatusCode.getItems();
 		String httpStatusCode = log.getHttpStatusCode();
 		if (selectedCheckBox(menuItems, httpStatusCode) == false) {
 			return false;
 		}
 		
-		//æ—¥ä»˜ã§åˆ¤å®š
+		//“ú•t‚Å”»’è
 		Calendar from = Calendar.getInstance(Locale.JAPAN);
 		Calendar after = Calendar.getInstance(Locale.JAPAN);
 		Calendar logCal = Calendar.getInstance(Locale.JAPAN);
@@ -393,23 +393,22 @@ public class AccessLogViewer {
 	
 	private void setTableClumn() {
 		if (setting instanceof AccessLogFormat) {
-			resetTableAll();
 			ArrayList<LogItemType> types = ((AccessLogFormat) setting).getTypes();
+			TableColumn column[] = table.getColumns();
 			for(int i = 0; i < types.size(); i++) {
 				LogItemType type = types.get(i);
-				TableColumn tblclmnAccessTime = new TableColumn(table, SWT.NONE);
-				tblclmnAccessTime.addSelectionListener(new TableSortListener(table));
-				tblclmnAccessTime.setWidth(72);
-				tblclmnAccessTime.setText(type.toString());
+				if (column.length < i || column[i] == null) {
+					TableColumn tableColumn = new TableColumn(table, SWT.NONE);
+					tableColumn.addSelectionListener(new TableSortListener(table));
+					tableColumn.setWidth(72);
+					tableColumn.setText(type.description());
+				}else {
+					column[i].setWidth(72);
+					column[i].setText(type.description());
+				}
 			}
 			table.redraw();
 		}
 	}
 	
-	private void resetTableAll(){
-		table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 7, 1));
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
-	}
 }

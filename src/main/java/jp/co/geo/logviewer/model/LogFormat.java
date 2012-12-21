@@ -35,9 +35,9 @@ abstract class LogFormat {
 		try{
 			return messageFormat.parse(source);
 		} catch (ParseException e) {
-			System.err.println("Error : ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã«å¾“ã£ã¦ã„ã¾ã›ã‚“ã€‚\n" +
-					"ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ : " + format + "\n" +
-					"ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ : " + source);
+			System.err.println("Error : ƒtƒH[ƒ}ƒbƒg‚É]‚Á‚Ä‚¢‚Ü‚¹‚ñB\n" +
+					"ƒtƒH[ƒ}ƒbƒg : " + format + "\n" +
+					"ƒƒbƒZ[ƒW : " + source);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

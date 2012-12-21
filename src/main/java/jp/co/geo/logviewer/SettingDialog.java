@@ -58,7 +58,7 @@ public class SettingDialog extends Dialog {
 	private void createContents() {
 		shell = new Shell(getParent(), getStyle());
 		shell.setSize(580, 435);
-		shell.setText("è¨­å®šç”»é¢");
+		shell.setText("İ’è‰æ–Ê");
 		shell.setLayout(new GridLayout(1, false));
 		
 		SashForm sashForm = new SashForm(shell, SWT.NONE);
@@ -67,14 +67,14 @@ public class SettingDialog extends Dialog {
 		Tree tree = new Tree(sashForm, SWT.BORDER);
 		
 		TreeItem treeItem = new TreeItem(tree, SWT.NONE);
-		treeItem.setText("ãƒ­ã‚°ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ");
+		treeItem.setText("ƒƒOƒtƒH[ƒ}ƒbƒg");
 		treeItem.setExpanded(true);
 
 		Composite mainComposite = new Composite(sashForm, SWT.NONE);
 		mainComposite.setLayout(new GridLayout(1, false));
 		mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		
-		// ãƒ­ã‚°ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’è¨­å®š
+		// ƒƒO‚ÌƒtƒH[ƒ}ƒbƒg‚ğİ’è
 		logFormatComposite = new LogFormatComposite(mainComposite, SWT.FILL);
 		GridData gd_logFormatComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_logFormatComposite.heightHint = 329;
@@ -92,7 +92,7 @@ public class SettingDialog extends Dialog {
 		composite.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		composite.setLayout(new RowLayout(SWT.HORIZONTAL));
 		
-		// OKãƒœã‚¿ãƒ³
+		// OKƒ{ƒ^ƒ“
 		Button btnNewButton = new Button(composite, SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override

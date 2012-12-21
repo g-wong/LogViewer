@@ -14,37 +14,37 @@ final public class LogItemType{
 	}
 	
 	/**
-	 * æ™‚é–“
+	 * ŠÔ
 	 */
-	public static LogItemType TIME = new LogItemType("TIME", 0, 3, "æ™‚é–“");
+	public static LogItemType TIME = new LogItemType("TIME", 0, 3, "ŠÔ");
 	
 	/**
-	 * HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰
+	 * HTTPƒXƒe[ƒ^ƒXƒR[ƒh
 	 */
-	public static LogItemType STATUS = new LogItemType("STATUS", 1, 5, "ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹");
+	public static LogItemType STATUS = new LogItemType("STATUS", 1, 5, "ƒXƒe[ƒ^ƒX");
 	
 	/**
-	 * ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«
+	 * ƒƒOƒŒƒxƒ‹
 	 */
-	public static LogItemType LOGLEVEL = new LogItemType("LOGLEVEL", 2, 3, "ãƒ­ã‚°ãƒ¬ãƒ™ãƒ«");
+	public static LogItemType LOGLEVEL = new LogItemType("LOGLEVEL", 2, 3, "ƒƒOƒŒƒxƒ‹");
 
 	/**
-	 * HTTPã®ãƒªã‚¯ã‚¨ã‚¹ãƒˆURL
+	 * HTTP‚ÌƒŠƒNƒGƒXƒgURL
 	 */
 	public static LogItemType URL = new LogItemType("URL", 3, 4, "URL");
 
 	/**
-	 * ã‚µã‚¤ã‚º
+	 * ƒTƒCƒY
 	 */
-	public static LogItemType SIZE = new LogItemType("SIZE", 4, 5, "ã‚µã‚¤ã‚º");
+	public static LogItemType SIZE = new LogItemType("SIZE", 4, 5, "ƒTƒCƒY");
 	
 	/**
-	 * å‡¦ç†æ™‚é–“
+	 * ˆ—ŠÔ
 	 */
-	public static LogItemType PROCESSING_TIME = new LogItemType("PROCESSING_TIME", 5, 6, "å‡¦ç†æ™‚é–“");
+	public static LogItemType PROCESSING_TIME = new LogItemType("PROCESSING_TIME", 5, 6, "ˆ—ŠÔ");
 	
 	/**
-	 * è¡¨ã®åˆ—ç•ªå·ã¨ãªã‚‹ Index ã‚’è¨­å®šã™ã‚‹
+	 * •\‚Ì—ñ”Ô†‚Æ‚È‚é Index ‚ğİ’è‚·‚é
 	 * @param index
 	 */
 	public void setIndex(int index) {
@@ -52,7 +52,7 @@ final public class LogItemType{
 	}
 	
 	/**
-	 * è¡¨ã®åˆ—åã¨ãªã‚‹æ–‡å­—åˆ—ã‚’è¨­å®šã™ã‚‹
+	 * •\‚Ì—ñ–¼‚Æ‚È‚é•¶š—ñ‚ğİ’è‚·‚é
 	 * @param description
 	 */
 	public void setDescription(String description) {
@@ -60,7 +60,7 @@ final public class LogItemType{
 	}
 	
 	/**
-	 * Indexã‚’è¿”ã™
+	 * Index‚ğ•Ô‚·
 	 * @return
 	 */
 	public int values() {
@@ -68,7 +68,7 @@ final public class LogItemType{
 	}
 	
 	/**
-	 * è¡¨ã§è¡¨ç¤ºã•ã‚Œã‚‹åˆ—ç•ªå·
+	 * •\‚Å•\¦‚³‚ê‚é—ñ”Ô†
 	 * @return
 	 */
 	public int index() {
@@ -76,7 +76,7 @@ final public class LogItemType{
 	}
 	
 	/**
-	 * åˆ—å
+	 * —ñ–¼
 	 * @return
 	 */
 	public String description() {
@@ -84,7 +84,7 @@ final public class LogItemType{
 	}
 	
 	/**
-	 * ã‚¿ã‚¤ãƒ—åã‚’ãã®ã¾ã¾æ–‡å­—åˆ—ã§è¿”ã™
+	 * ƒ^ƒCƒv–¼‚ğ‚»‚Ì‚Ü‚Ü•¶š—ñ‚Å•Ô‚·
 	 */
 	public String toString() {
 		return name;

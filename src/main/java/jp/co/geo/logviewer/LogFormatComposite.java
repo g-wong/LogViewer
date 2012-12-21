@@ -47,14 +47,14 @@ public class LogFormatComposite extends Composite {
 		setLayout(new GridLayout(2, false));
 		
 		Label lblNewLabel = new Label(this, SWT.NONE);
-		lblNewLabel.setText("æ›¸å¼");
+		lblNewLabel.setText("‘®");
 		
 		textLogFormat = new Text(this, SWT.BORDER);
 		textLogFormat.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		textLogFormat.setText("{0} {1} {2} [{3}] \"{4}\" {5} {6}");
 		
 		Group group = new Group(this, SWT.NONE);
-		group.setText("ãƒ†ãƒ¼ãƒ–ãƒ«ã«è¡¨ç¤ºã™ã‚‹åˆ—åã¨ã‚¿ã‚¤ãƒ—ã‚’æŒ‡å®š");
+		group.setText("ƒe[ƒuƒ‹‚É•\¦‚·‚é—ñ–¼‚Æƒ^ƒCƒv‚ğw’è");
 		group.setLayout(new GridLayout(2, false));
 		GridData gd_group = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
 		gd_group.heightHint = 174;
@@ -73,24 +73,24 @@ public class LogFormatComposite extends Composite {
 		
 		TableColumn tblclmnType = new TableColumn(table, SWT.NONE);
 		tblclmnType.setWidth(110);
-		tblclmnType.setText("ã‚¿ã‚¤ãƒ—");
+		tblclmnType.setText("ƒ^ƒCƒv");
 		
 		TableColumn tblclmnName = new TableColumn(table, SWT.NONE);
 		tblclmnName.setWidth(157);
-		tblclmnName.setText("è¡¨ç¤ºåˆ—å");
+		tblclmnName.setText("•\¦—ñ–¼");
 		
 		TableItem tableItem = new TableItem(table, SWT.NONE);
-		String text[] = {"4", "Time", "æ™‚åˆ»"};
-		tableItem.setText(new String[] {"3", "TIME", "æ™‚åˆ»"});
+		String text[] = {"4", "Time", ""};
+		tableItem.setText(new String[] {"3", "TIME", ""});
 		
 		TableItem tableItem_1 = new TableItem(table, SWT.NONE);
-		tableItem_1.setText(new String[] {"4", "URL", "ãƒªã‚¯ã‚¨ã‚¹ãƒˆURL"});
+		tableItem_1.setText(new String[] {"4", "URL", "ƒŠƒNƒGƒXƒgURL"});
 		
 		TableItem tableItem_2 = new TableItem(table, SWT.NONE);
-		tableItem_2.setText(new String[] {"5", "STATUS", "HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰"});
+		tableItem_2.setText(new String[] {"5", "STATUS", "HTTPƒXƒe[ƒ^ƒXƒR[ƒh"});
 		
 		TableItem tableItem_3 = new TableItem(table, SWT.NONE);
-		tableItem_3.setText(new String[] {"6", "SIZE", "ã‚µã‚¤ã‚º(Byte)"});
+		tableItem_3.setText(new String[] {"6", "SIZE", "ƒTƒCƒY(Byte)"});
 		
 		Composite composite = new Composite(group, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
@@ -98,18 +98,18 @@ public class LogFormatComposite extends Composite {
 		
 		Button btnNewButton = new Button(composite, SWT.NONE);
 		btnNewButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		btnNewButton.setText("è¡Œã®è¿½åŠ ");
+		btnNewButton.setText("s‚Ì’Ç‰Á");
 		
 		Button btnNewButton_1 = new Button(composite, SWT.NONE);
 		btnNewButton_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		btnNewButton_1.setText("è¡Œã®ç·¨é›†");
+		btnNewButton_1.setText("s‚Ì•ÒW");
 		
 		Button btnNewButton_2 = new Button(composite, SWT.NONE);
 		btnNewButton_2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		btnNewButton_2.setText("è¡Œã®å‰Šé™¤");
+		btnNewButton_2.setText("s‚Ìíœ");
 		
 		Label label = new Label(group, SWT.NONE);
-		label.setText("â€»çœç•¥ã™ã‚‹ã¨è¡¨ç¤ºã•ã‚Œã¾ã›ã‚“");
+		label.setText("¦È—ª‚·‚é‚Æ•\¦‚³‚ê‚Ü‚¹‚ñ");
 		new Label(group, SWT.NONE);
 		
 		Group group_1 = new Group(this, SWT.NONE);
@@ -120,7 +120,7 @@ public class LogFormatComposite extends Composite {
 		group_1.setLayoutData(gd_group_1);
 		
 		Label lblNewLabel_1 = new Label(group_1, SWT.NONE);
-		lblNewLabel_1.setText("æ™‚åˆ»å½¢å¼");
+		lblNewLabel_1.setText("Œ`®");
 		
 		txtTimeFormat = new Text(group_1, SWT.BORDER);
 		GridData gd_txtTimeFormat = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
@@ -135,10 +135,10 @@ public class LogFormatComposite extends Composite {
 		sashForm.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 2, 1));
 		
 		Button btnImport = new Button(sashForm, SWT.NONE);
-		btnImport.setText("ã‚¤ãƒ³ãƒãƒ¼ãƒˆ");
+		btnImport.setText("ƒCƒ“ƒ|[ƒg");
 		
 		Button btnExport = new Button(sashForm, SWT.NONE);
-		btnExport.setText("ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆ");
+		btnExport.setText("ƒGƒNƒXƒ|[ƒg");
 		sashForm.setWeights(new int[] {1, 1});
 
 	}
@@ -169,8 +169,9 @@ public class LogFormatComposite extends Composite {
 			if (null != type) {
 				type.setDescription(description);
 				type.setIndex(index);
+				types.add(type);
 			} else {
-				System.err.println("Error : å®šç¾©ã•ã‚Œã¦ã„ãªã„ãƒ­ã‚°ã®ã‚¿ã‚¤ãƒ—ãŒæŒ‡å®šã•ã‚Œã¾ã—ãŸ " + name);
+				System.err.println("Error : ’è‹`‚³‚ê‚Ä‚¢‚È‚¢ƒƒO‚Ìƒ^ƒCƒv‚ªw’è‚³‚ê‚Ü‚µ‚½ " + name);
 			}
 			
 		}

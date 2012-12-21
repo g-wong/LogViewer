@@ -48,7 +48,7 @@ public class LogModel {
 	
 
 	/**
-	 * HTTPã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹
+	 * HTTPƒXƒe[ƒ^ƒXƒR[ƒh‚ğæ“¾‚·‚é
 	 * @return
 	 */
 	public String getHttpStatusCode() {
