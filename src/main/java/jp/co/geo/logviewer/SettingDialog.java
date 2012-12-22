@@ -1,5 +1,7 @@
 package jp.co.geo.logviewer;
 
+import java.util.ResourceBundle;
+
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -21,6 +23,7 @@ import org.eclipse.swt.events.SelectionEvent;
 
 public class SettingDialog extends Dialog {
 
+	ResourceBundle rb = ResourceBundle.getBundle("jp.co.geo.logviewer.Location");
 	protected Object result;
 	protected Shell shell;
 	LogFormatComposite logFormatComposite;
@@ -58,7 +61,7 @@ public class SettingDialog extends Dialog {
 	private void createContents() {
 		shell = new Shell(getParent(), getStyle());
 		shell.setSize(580, 435);
-		shell.setText("設定画面");
+		shell.setText(rb.getString("setting.window.name"));
 		shell.setLayout(new GridLayout(1, false));
 		
 		SashForm sashForm = new SashForm(shell, SWT.NONE);
@@ -67,7 +70,7 @@ public class SettingDialog extends Dialog {
 		Tree tree = new Tree(sashForm, SWT.BORDER);
 		
 		TreeItem treeItem = new TreeItem(tree, SWT.NONE);
-		treeItem.setText("ログフォーマット");
+		treeItem.setText(rb.getString("setting.window.tree.item.logformat"));
 		treeItem.setExpanded(true);
 
 		Composite mainComposite = new Composite(sashForm, SWT.NONE);

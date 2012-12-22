@@ -80,11 +80,10 @@ public class OpenFileDialog extends Dialog {
 				fileDialog.setText("Open");
 				fileDialog.setFilterPath("C:/");
 				String selected = fileDialog.open();
-				if (selected == null) {
-					selected = "";
-				}
 				System.out.println("selected : " + selected);
-				textFile.setText(selected);
+				if(selected != null) {
+					textFile.setText(selected);
+				}
 			}
 		});
 		btnNewButton.setText("...");

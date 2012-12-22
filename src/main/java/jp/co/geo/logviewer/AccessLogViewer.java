@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 
@@ -44,6 +45,11 @@ public class AccessLogViewer {
 
 	protected Shell shell;
 	private Table table;
+	
+	/**
+	 * 
+	 */
+	ResourceBundle rb = ResourceBundle.getBundle("jp.co.geo.logviewer.Location");
 	
 	/**
 	 * HTTPステータスコードの表示メニュー
@@ -125,7 +131,7 @@ public class AccessLogViewer {
 			 */
 			public void widgetSelected(SelectionEvent e) {
 				// ファイルダイアログを開く
-				OpenFileDialog openFileDialog = new OpenFileDialog(shell, SWT.APPLICATION_MODAL);
+				OpenFileDialog openFileDialog = new OpenFileDialog(shell, SWT.CLOSE | SWT.APPLICATION_MODAL);
 				ArrayList<StringBuffer> openFile = (ArrayList<StringBuffer>) openFileDialog.open();
 				setData(openFile);
 				return;
@@ -180,11 +186,11 @@ public class AccessLogViewer {
 				setTableClumn();
 			}
 		});
-		menuItem_2.setText("設定");
+		menuItem_2.setText(rb.getString("menubar.setting"));
 		new Label(shell, SWT.NONE);
 		
 		Label lblNewLabel = new Label(shell, SWT.NONE);
-		lblNewLabel.setText("\u958B\u59CB\u65E5");
+		lblNewLabel.setText(rb.getString("label.tofrom"));
 		
 		fromDateTime = new DateTime(shell, SWT.BORDER);
 		
@@ -394,18 +400,22 @@ public class AccessLogViewer {
 	
 	private void setTableClumn() {
 		if (setting instanceof LogFormat) {
-			TableColumn clumn[] = table.getColumns();
 			ArrayList<LogItemType> types = ((LogFormat) setting).getTypes();
+			TableColumn column[] = table.getColumns();
 			for(int i = 0; i < types.size(); i++) {
 				LogItemType type = types.get(i);
-				if(clumn[i] == null) {
-					clumn[i] = new TableColumn(table, SWT.NONE);
-					clumn[i].addSelectionListener(new TableSortListener(table));
+				if (column.length < i || column[i] == null) {
+					TableColumn tableColumn = new TableColumn(table, SWT.NONE);
+					tableColumn.addSelectionListener(new TableSortListener(table));
+					tableColumn.setWidth(72);
+					tableColumn.setText(type.description());
+				}else {
+					column[i].setWidth(72);
+					column[i].setText(type.description());
 				}
-				clumn[i].setWidth(75);
-				clumn[i].setText(type.description());
 			}
 			table.redraw();
 		}
 	}
+	
 }
