@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.CoolBar;
+import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -36,13 +37,15 @@ public class LogFormatComposite extends Composite {
 	private Text textLogFormat;
 	private Table table;
 	private Text txtTimeFormat;
+	
+	static ArrayList<Integer> numberList = new ArrayList<Integer>();
 
 	/**
 	 * Create the composite.
 	 * @param parent
 	 * @param style
 	 */
-	public LogFormatComposite(Composite parent, int style) {
+	public LogFormatComposite(final Composite parent, int style) {
 		super(parent, style);
 		setLayout(new GridLayout(2, false));
 		
@@ -82,21 +85,32 @@ public class LogFormatComposite extends Composite {
 		TableItem tableItem = new TableItem(table, SWT.NONE);
 		String text[] = {"4", "Time", "時刻"};
 		tableItem.setText(new String[] {"3", "TIME", "時刻"});
+		numberList.add(new Integer(3));
 		
 		TableItem tableItem_1 = new TableItem(table, SWT.NONE);
 		tableItem_1.setText(new String[] {"4", "URL", "リクエストURL"});
+		numberList.add(new Integer(4));
 		
 		TableItem tableItem_2 = new TableItem(table, SWT.NONE);
 		tableItem_2.setText(new String[] {"5", "STATUS", "HTTPステータスコード"});
+		numberList.add(new Integer(5));
 		
 		TableItem tableItem_3 = new TableItem(table, SWT.NONE);
 		tableItem_3.setText(new String[] {"6", "SIZE", "サイズ(Byte)"});
+		numberList.add(new Integer(6));
 		
 		Composite composite = new Composite(group, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 		composite.setLayout(new GridLayout(1, false));
 		
 		Button btnNewButton = new Button(composite, SWT.NONE);
+		btnNewButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				AddLogItemTypeDialog addDialog = new AddLogItemTypeDialog(parent.getShell(), SWT.CLOSE | SWT.PRIMARY_MODAL);
+				addDialog.open();
+			}
+		});
 		btnNewButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		btnNewButton.setText("行の追加");
 		

@@ -1,5 +1,7 @@
 package jp.co.geo.logviewer.model;
 
+import java.util.ArrayList;
+
 final public class LogItemType{
 	private int index;
 	private String name;
@@ -91,20 +93,25 @@ final public class LogItemType{
 	}
 	
 	public static LogItemType getLogItemType(String type) {
-		if(type.equals(TIME.toString())) {
-			return TIME;
-		} else if(type.equals(STATUS.toString())) {
-			return STATUS;
-		} else if(type.equals(LOGLEVEL.toString())) {
-			return LOGLEVEL;
-		} else if(type.equals(URL.toString())) {
-			return URL;
-		} else if(type.equals(PROCESSING_TIME.toString())){
-			return PROCESSING_TIME;
-		} else if(type.equals(SIZE.toString())){
-			return SIZE;
-		}else {
-			return null;
+		ArrayList<LogItemType> list = getLogItemTypeList();
+		for (int i = 0; i < list.size(); i++) {
+			if(type.equals(list.get(i).toString())) {
+				return list.get(i);
+			}
 		}
+		
+		return null;
+	}
+	
+	public static ArrayList<LogItemType> getLogItemTypeList() {
+		ArrayList<LogItemType> list = new ArrayList<LogItemType>();
+		list.add(TIME);
+		list.add(STATUS);
+		list.add(LOGLEVEL);
+		list.add(URL);
+		list.add(PROCESSING_TIME);
+		list.add(SIZE);
+		
+		return list;
 	}
 }
