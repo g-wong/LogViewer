@@ -404,7 +404,7 @@ public class AccessLogViewer {
 			TableColumn column[] = table.getColumns();
 			for(int i = 0; i < types.size(); i++) {
 				LogItemType type = types.get(i);
-				if (column.length < i || column[i] == null) {
+				if (column.length <= i || column[i] == null) {
 					TableColumn tableColumn = new TableColumn(table, SWT.NONE);
 					tableColumn.addSelectionListener(new TableSortListener(table));
 					tableColumn.setWidth(72);

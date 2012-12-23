@@ -106,6 +106,7 @@ public class AddLogItemTypeDialog extends Dialog {
 					return;
 				}
 				
+				getResult();
 				shell.dispose();
 			}
 		});
@@ -136,6 +137,11 @@ public class AddLogItemTypeDialog extends Dialog {
 		}
 	}
 	
+	/**
+	 * 入力値のチェック
+	 * 入力された値が不正であった場合は警告ダイアログを表示してfalseを返す
+	 * @return
+	 */
 	private boolean checkInput() {
 		Integer input;
 
@@ -176,5 +182,15 @@ public class AddLogItemTypeDialog extends Dialog {
 		
 		
 		return true;
+	}
+	
+	public LogItemType getResult() {
+		LogItemType type = LogItemType.getLogItemType(comboTypeSelect.getText());
+		type.setDescription(textTypeDescription.getText());
+		type.setIndex(Integer.decode(textNumber.getText()).intValue());
+		
+		result = type;
+		
+		return type;
 	}
 }

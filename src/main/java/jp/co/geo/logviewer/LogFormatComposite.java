@@ -108,7 +108,8 @@ public class LogFormatComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				AddLogItemTypeDialog addDialog = new AddLogItemTypeDialog(parent.getShell(), SWT.CLOSE | SWT.PRIMARY_MODAL);
-				addDialog.open();
+				LogItemType type = (LogItemType)addDialog.open();
+				setTypeToTable(type);
 			}
 		});
 		btnNewButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
@@ -193,5 +194,14 @@ public class LogFormatComposite extends Composite {
 			= new AccessLogFormat(logFormat, timeFormat, types);
 		
 		return format;
+	}
+	
+	private void setTypeToTable(LogItemType type) {
+		TableItem tableItem = new TableItem(table, SWT.NONE);
+		String index = String.valueOf(type.index());
+		String name = type.toString();
+		String description = type.description();
+		tableItem.setText(new String[] {index, name, description});
+		numberList.add(type.index());
 	}
 }
