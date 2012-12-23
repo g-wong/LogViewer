@@ -109,7 +109,9 @@ public class LogFormatComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				AddLogItemTypeDialog addDialog = new AddLogItemTypeDialog(parent.getShell(), SWT.CLOSE | SWT.PRIMARY_MODAL);
 				LogItemType type = (LogItemType)addDialog.open();
-				setTypeToTable(type);
+				if (type != null) {
+					setTypeToTable(type);
+				}
 			}
 		});
 		btnNewButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
