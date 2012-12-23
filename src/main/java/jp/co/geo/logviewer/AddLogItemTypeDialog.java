@@ -103,14 +103,10 @@ public class AddLogItemTypeDialog extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(checkInput() == false) {
-					MessageBox msg = new MessageBox(shell, 
-							SWT.OK | 
-							SWT.ICON_WARNING);
-					msg.setText("Message");
-					msg.setMessage(textNumber.getText() + " は既に定義されています");
-					msg.open();
 					return;
 				}
+				
+				shell.dispose();
 			}
 		});
 		GridData gd_btnAdd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
@@ -119,6 +115,12 @@ public class AddLogItemTypeDialog extends Dialog {
 		btnAdd.setText("追加");
 		
 		Button btnCancel = new Button(shell, SWT.NONE);
+		btnCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				shell.dispose();
+			}
+		});
 		GridData gd_btnCancel = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnCancel.widthHint = 75;
 		btnCancel.setLayoutData(gd_btnCancel);
@@ -135,14 +137,44 @@ public class AddLogItemTypeDialog extends Dialog {
 	}
 	
 	private boolean checkInput() {
-		Integer input = Integer.decode(textNumber.getText());
+		Integer input;
+
+		MessageBox msg = new MessageBox(shell, 
+				SWT.OK | 
+				SWT.ICON_WARNING);
+		msg.setText("Message");
+		
+		// 数値のチェック
+		try {
+			input = Integer.decode(textNumber.getText());
+		} catch(NumberFormatException e) {
+			msg.setMessage(textNumber.getText() + " は整数値ではありません");
+			msg.open();
+			return false;
+		}
+		if(input < 0) {
+			msg.setMessage(textNumber.getText() + " は負の値です。0より大きい値を入力してください");
+			msg.open();
+			return false;
+		}
 		ArrayList<Integer> numberList = LogFormatComposite.numberList;
 		for(int i = 0; i < numberList.size(); i++) {
 			if(numberList.get(i).equals(input)) {
+				msg.setMessage(textNumber.getText() + " は既に定義されています");
+				msg.open();
 				return false;
 			}
 		}
+		
+		// タイプのチェック
+		String selectType = comboTypeSelect.getText();
+		if(LogItemType.getLogItemType(selectType) == null){
+			msg.setMessage("入力したタイプは無効です");
+			msg.open();
+			return false;
+		}
+		
+		
 		return true;
 	}
-
 }
