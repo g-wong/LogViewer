@@ -3,7 +3,6 @@ package jp.co.geo.logviewer.model;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 abstract public class LogFormat {
 	private String format;

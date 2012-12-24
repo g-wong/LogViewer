@@ -5,7 +5,7 @@ import java.util.ArrayList;
 final public class LogItemType{
 	private int index;
 	private String name;
-	private int original;
+	private final int original;
 	private String description;
 	
 	private LogItemType(String name, int original, int index, String description) {
@@ -113,5 +113,9 @@ final public class LogItemType{
 		list.add(SIZE);
 		
 		return list;
+	}
+	
+	public int getOriginal() {
+		return original;
 	}
 }

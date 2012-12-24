@@ -12,22 +12,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.CoolBar;
-import org.eclipse.swt.widgets.Dialog;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
-import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.widgets.Menu;
-import swing2swt.layout.FlowLayout;
-import swing2swt.layout.BorderLayout;
-import swing2swt.layout.BoxLayout;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -35,7 +23,7 @@ import org.eclipse.swt.events.SelectionEvent;
 public class LogFormatComposite extends Composite {
 	
 	private Text textLogFormat;
-	private Table table;
+	private static Table table;
 	private Text txtTimeFormat;
 	
 	static ArrayList<Integer> numberList = new ArrayList<Integer>();
@@ -83,7 +71,6 @@ public class LogFormatComposite extends Composite {
 		tblclmnName.setText("表示列名");
 		
 		TableItem tableItem = new TableItem(table, SWT.NONE);
-		String text[] = {"4", "Time", "時刻"};
 		tableItem.setText(new String[] {"3", "TIME", "時刻"});
 		numberList.add(new Integer(3));
 		
@@ -122,6 +109,14 @@ public class LogFormatComposite extends Composite {
 		btnNewButton_1.setText("行の編集");
 		
 		Button btnNewButton_2 = new Button(composite, SWT.NONE);
+		btnNewButton_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int select = table.getSelectionIndex();
+				if(select == -1) return;
+				table.remove(select);
+			}
+		});
 		btnNewButton_2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		btnNewButton_2.setText("行の削除");
 		
@@ -145,7 +140,6 @@ public class LogFormatComposite extends Composite {
 		txtTimeFormat.setLayoutData(gd_txtTimeFormat);
 		txtTimeFormat.setText("dd/MMM/yyyy:HH:mm:ss Z");
 		
-		Label label_1 = new Label(group_1, SWT.NONE);
 		new Label(group_1, SWT.NONE);
 		
 		SashForm sashForm = new SashForm(this, SWT.NONE);

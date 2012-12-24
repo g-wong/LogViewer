@@ -1,11 +1,9 @@
 package jp.co.geo.logviewer;
 
 import java.awt.BorderLayout;
-import java.util.Iterator;
 
 import javax.swing.JFrame;
 
-import jp.co.geo.logviewer.model.LogModel;
 import jp.co.geo.logviewer.model.Logs;
 
 import org.jfree.chart.ChartFactory;
@@ -19,6 +17,10 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 public class GraphViewer extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DefaultCategoryDataset data = new DefaultCategoryDataset();;
 
 	public GraphViewer(Logs logs){

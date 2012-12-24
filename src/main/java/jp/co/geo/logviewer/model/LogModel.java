@@ -1,8 +1,6 @@
 package jp.co.geo.logviewer.model;
 
 import java.text.DateFormat;
-import java.text.MessageFormat;
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;

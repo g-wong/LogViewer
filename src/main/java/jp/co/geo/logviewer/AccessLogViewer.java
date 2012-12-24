@@ -32,14 +32,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Button;
-
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.widgets.Combo;
 
 public class AccessLogViewer {
 
@@ -302,7 +298,6 @@ public class AccessLogViewer {
 	/**
 	 * 再描画を行う
 	 */
-	@SuppressWarnings("deprecation")
 	private void redraw() {
 		table.removeAll();
 		Iterator<LogModel> it = logList.iterator();
