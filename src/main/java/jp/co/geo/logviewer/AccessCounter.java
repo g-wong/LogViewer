@@ -12,10 +12,29 @@ public class AccessCounter {
 	Logs logs = null;
 	private long maxTime = 0;
 	private long minTime = 0;
-	private Integer cnt[] = null;
-	private int range = 10;
-	private String unit = "second";
+	protected Integer cnt[] = null;
+	protected int range = 10;
+	protected Unit unit = Unit.SECOND;
 	private DateFormat df = null;
+	
+	enum Unit{
+		MILLISEC("millisec"),
+		SECOND("second"),
+		MINUTE("minute"),
+		HOUR("hour"),
+		DAY("day"),
+		YEAR("year");
+		
+		private String str;
+		
+		Unit(String str) {
+			this.str = str;
+		}
+		
+		public String toString() {
+			return str;
+		}
+	}
 	
 	
 	public AccessCounter(Logs logs) {
@@ -26,7 +45,7 @@ public class AccessCounter {
 	}
 	
 	private void init() {
-		int dataNum = (int) ((maxTime - minTime) / ( range * parseUnitMillisec(unit)));
+		int dataNum = (int) ((maxTime - minTime) / ( range * parseUnitMillisec(unit.toString())));
 		cnt = new Integer[dataNum + 1];
 		for (int i = 0; i < cnt.length; i++) {
 			cnt[i] = 0;
@@ -38,16 +57,14 @@ public class AccessCounter {
 		Iterator<LogModel> it = logs.iterator();
 		while(it.hasNext()) {
 			LogModel log = it.next();
-			long time = log.getDate().getTime();
-			int index = (int) ((long)(time - minTime) / ( (long) range * parseUnitMillisec(unit)));
-			cnt[index]++;
+			plusCount(log.getDate());
 		}
 		return cnt;
 	}
 	
 	public String getTime(int index) {
 		long start = logs.getMinDate().getTime();
-		long time = start + index * (range * parseUnitMillisec(unit));
+		long time = start + index * (range * parseUnitMillisec(unit.toString()));
 		Date date = new Date(time);
 		if (df == null){
 			setFormat("HH:mm");
@@ -55,7 +72,7 @@ public class AccessCounter {
 		return df.format(date);
 	}
 	
-	public void setFormat(String format) {
+	private void setFormat(String format) {
 		this.df = new SimpleDateFormat(format);
 		
 	}
@@ -64,11 +81,11 @@ public class AccessCounter {
 		this.range = range;
 	}
 	
-	public void setUnit(String unit) {
+	public void setUnit(Unit unit) {
 		this.unit = unit;
 	}
 	
-	private long parseUnitMillisec(String unit) {
+	protected long parseUnitMillisec(String unit) {
 		if (unit.equals("s")
 				|| unit.equals("second")) {
 			return 1000;
@@ -85,5 +102,23 @@ public class AccessCounter {
 		}
 		
 		return 60000;
+	}
+	
+	/**
+	 * 日時に該当する時間帯のカウントを１増やす
+	 * @param date
+	 */
+	protected void plusCount(Date date) {
+		plusCount(date.getTime());
+	}
+	
+	protected void plusCount(long time) {
+		if (time < logs.getMinDate().getTime()
+				|| logs.getMaxDate().getTime() < time) {
+			return;
+		}
+		
+		int index = (int) ((long)(time - minTime) / ( (long) range * parseUnitMillisec(unit.toString())));
+		cnt[index]++;
 	}
 }

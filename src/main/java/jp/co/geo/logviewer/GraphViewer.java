@@ -30,7 +30,7 @@ public class GraphViewer extends JFrame{
 	public void setData(Logs logs) {
 		AccessCounter counter = new AccessCounter(logs);
 		counter.setRange(10);
-		counter.setUnit("second");
+		counter.setUnit(AccessCounter.Unit.MINUTE);
 		Integer cnt[] = counter.getCount();
 		for (int i = 0; i < cnt.length; i++) {
 			data.addValue(cnt[i], "Count", counter.getTime(i));
