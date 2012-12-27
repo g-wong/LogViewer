@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>jp.co.geo.logviewer</groupId>
-  <artifactId>accesslog</artifactId>
+  <artifactId>AccessLogViewer</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -14,6 +14,49 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  
+  <profiles>
+	  <profile>
+	     <id>windows</id>
+	     <activation>
+	       <os>
+	         <family>windows</family>
+	         <arch>x86</arch>
+	       </os>
+	     </activation>
+	     <properties>
+	       <swt.groupId>org.eclipse.swt.win32.win32</swt.groupId>
+	       <swt.artifactId>x86</swt.artifactId>
+	     </properties>
+	   </profile>
+	   
+	   <profile>
+	     <id>windows_x64</id>
+	     <activation>
+	       <os>
+	         <family>windows</family>
+	         <arch>x86_64</arch>
+	       </os>
+	     </activation>
+	     <properties>
+	       <swt.groupId>org.eclipse.swt.win32.win32</swt.groupId>
+	       <swt.artifactId>x86_64</swt.artifactId>
+	     </properties>
+	   </profile>
+	   <profile>
+	     <id>windows_amd64</id>
+	     <activation>
+	       <os>
+	         <family>windows</family>
+	         <arch>amd64</arch>
+	       </os>
+	     </activation>
+	     <properties>
+	       <swt.groupId>org.eclipse.swt.win32.win32</swt.groupId>
+	       <swt.artifactId>x86_64</swt.artifactId>
+	     </properties>
+	   </profile>
+   </profiles>
 
   <build>
     <plugins>
@@ -71,17 +114,17 @@
     <dependency>
     	<groupId>jfree</groupId>
     	<artifactId>jfreechart-swt</artifactId>
-    	<version>1.0.14</version>
+    	<version>1.0.9</version>
     </dependency>
     <dependency>
-    	<groupId>org.eclipse.swt.win32.win32</groupId>
-    	<artifactId>x86</artifactId>
-    	<version>3.3.0-v3346</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.jfree</groupId>
+    	<groupId>jfree</groupId>
     	<artifactId>jfreechart</artifactId>
-    	<version>1.0.14</version>
+    	<version>1.0.13</version>
+    </dependency>
+    <dependency>
+    	<groupId>${swt.groupId}</groupId>
+    	<artifactId>${swt.artifactId}</artifactId>
+    	<version>3.6.1</version>
     </dependency>
   </dependencies>
 </project>
